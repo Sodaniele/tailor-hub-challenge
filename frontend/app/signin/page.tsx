@@ -4,21 +4,15 @@ import { ArrowLeft, Sparkles } from 'lucide-react';
 
 export default function SignInPage() {
   return (
-    // CONTENEDOR PRINCIPAL:
-    // - relative: Para que el texto legal se posicione respecto a esta caja.
-    // - pb-10: Dejamos espacio abajo del todo para que quepa la frase sin apreturas.
+    // CONTENEDOR PRINCIPAL
     <div className="h-screen w-full bg-white p-2 pb-10 flex gap-2 font-sans overflow-hidden relative">
       
       {/* --- COLUMNA IZQUIERDA --- */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
         
-        {/* Texto superior 'SignIn' (Se queda arriba) */}
-        <div className="text-gray-300 text-sm font-medium mb-auto pt-4 pl-2">
-          SignIn
-        </div>
+        {/* Se ha eliminado el div que contenía el texto 'SignIn' */}
 
         {/* TARJETA AZUL */}
-        {/* Al no tener márgenes extra, se alinea perfectamente con la foto gracias al flex del padre */}
         <div className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           
           {/* Header */}
@@ -78,7 +72,6 @@ export default function SignInPage() {
       </div>
 
       {/* --- TEXTO LEGAL --- */}
-      {/* Posicionado con 'absolute' para que flote libremente abajo y no empuje nada */}
       <p className="absolute bottom-3 left-6 text-[10px] text-gray-400 font-medium tracking-tight">
         Prueba técnica ©Tailor hub SL 2019 - 2024
       </p>

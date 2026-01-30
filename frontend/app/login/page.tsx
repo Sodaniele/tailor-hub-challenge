@@ -4,21 +4,18 @@ import { Sparkles } from 'lucide-react';
 
 export default function LoginPage() {
   return (
-    // CONTENEDOR PRINCIPAL (Misma estructura que las otras para consistencia)
+    // CONTENEDOR PRINCIPAL
     <div className="h-screen w-full bg-white p-2 pb-10 flex gap-2 font-sans overflow-hidden relative">
       
       {/* --- COLUMNA IZQUIERDA --- */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
         
-        {/* Texto superior 'Login' */}
-        <div className="text-gray-300 text-sm font-medium mb-auto pt-4 pl-2">
-          Login
-        </div>
+        {/* Se ha eliminado el div que contenía el texto 'Login' */}
 
         {/* TARJETA AZUL */}
         <div className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           
-          {/* Header: Solo Logo (sin flecha de volver esta vez) */}
+          {/* Header: Logo con el asterisco/sparkle */}
           <div className="flex items-center gap-2 mb-8">
             <Sparkles className="w-6 h-6 fill-white text-white" />
             <span className="text-3xl font-bold tracking-tight">tailor</span>
@@ -75,7 +72,6 @@ export default function LoginPage() {
           alt="Greenhouse Restaurant" 
           className="w-full h-full object-cover"
         />
-        {/* Capa oscura sutil */}
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
 

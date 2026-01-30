@@ -4,16 +4,13 @@ import { ArrowLeft, Sparkles } from 'lucide-react';
 
 export default function PasswordPage() {
   return (
-    // Usamos la misma estructura base que en SignIn para que no haya saltos visuales
+    // Estructura base sin saltos visuales
     <div className="h-screen w-full bg-white p-2 pb-10 flex gap-2 font-sans overflow-hidden relative">
       
       {/* --- COLUMNA IZQUIERDA --- */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
         
-        {/* Texto superior (Breadcrumb) */}
-        <div className="text-gray-300 text-sm font-medium mb-auto pt-4 pl-2">
-          SingIn
-        </div>
+        {/* Se ha eliminado el div que contenía el texto 'SingIn' */}
 
         {/* TARJETA AZUL */}
         <div className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
@@ -72,7 +69,6 @@ export default function PasswordPage() {
       </div>
 
       {/* --- TEXTO LEGAL --- */}
-      {/* Igual que en la otra página: fuera y abajo */}
       <p className="absolute bottom-3 left-6 text-[10px] text-gray-400 font-medium tracking-tight">
         Prueba técnica ©Tailor hub SL 2019 - 2024
       </p>
