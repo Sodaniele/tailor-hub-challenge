@@ -1,28 +1,38 @@
 import { Restaurant } from '../types/restaurant';
+import { Heart } from 'lucide-react'; 
 
 export default function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
-      <div className="relative h-48 w-full">
+    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all hover:shadow-md">
+      {/* Botón de Favorito (Figma Style) */}
+      <button className="absolute top-3 right-3 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full text-gray-400 hover:text-red-500 transition-colors">
+        <Heart size={20} />
+      </button>
+
+      <div className="aspect-video w-full overflow-hidden">
         <img 
           src={restaurant.image} 
           alt={restaurant.name} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <div className="p-5">
-        <div className="flex justify-between items-start">
-          <h3 className="text-lg font-bold text-gray-800">{restaurant.name}</h3>
-          <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold">
-            ★ {restaurant.rating}
-          </span>
+
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-1">
+          <h3 className="font-bold text-lg text-gray-900">{restaurant.name}</h3>
+          <div className="flex items-center gap-1">
+            <span className="text-yellow-400">★</span>
+            <span className="text-sm font-semibold text-gray-700">{restaurant.rating}</span>
+          </div>
         </div>
-        <p className="text-gray-500 text-sm mt-2 line-clamp-2">
+        
+        <p className="text-gray-500 text-sm mb-3 line-clamp-1">
           {restaurant.description}
         </p>
-        <p className="text-gray-400 text-xs mt-3 flex items-center">
-          📍 {restaurant.address}
-        </p>
+        
+        <div className="flex items-center gap-1 text-gray-400 text-xs">
+          <span>📍 {restaurant.address}</span>
+        </div>
       </div>
     </div>
   );
