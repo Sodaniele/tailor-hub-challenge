@@ -2,26 +2,23 @@
 import Link from 'next/link';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 
-export default function SignInPage() {
+export default function PasswordPage() {
   return (
-    // CONTENEDOR PRINCIPAL:
-    // - relative: Para que el texto legal se posicione respecto a esta caja.
-    // - pb-10: Dejamos espacio abajo del todo para que quepa la frase sin apreturas.
+    // Usamos la misma estructura base que en SignIn para que no haya saltos visuales
     <div className="h-screen w-full bg-white p-2 pb-10 flex gap-2 font-sans overflow-hidden relative">
       
       {/* --- COLUMNA IZQUIERDA --- */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
         
-        {/* Texto superior 'SignIn' (Se queda arriba) */}
+        {/* Texto superior (Breadcrumb) */}
         <div className="text-gray-300 text-sm font-medium mb-auto pt-4 pl-2">
-          SignIn
+          SingIn
         </div>
 
         {/* TARJETA AZUL */}
-        {/* Al no tener márgenes extra, se alinea perfectamente con la foto gracias al flex del padre */}
         <div className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           
-          {/* Header */}
+          {/* Header: Logo y Flecha (Vuelve a signin) */}
           <div className="flex flex-col items-start gap-6 mb-6">
             <div className="flex items-center gap-2">
               <Sparkles className="w-6 h-6 fill-white text-white" />
@@ -29,40 +26,37 @@ export default function SignInPage() {
             </div>
             
             <Link 
-              href="/login" 
+              href="/signin" 
               className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
           </div>
 
-          {/* Formulario */}
+          {/* Formulario Contraseña */}
           <div className="space-y-6">
+            
+            {/* Input Contraseña */}
             <div className="space-y-2">
-              <label className="text-sm font-bold ml-1">Email:</label>
+              <label className="text-sm font-bold ml-1 block">
+                Crea una contraseña nueva
+              </label>
               <input 
-                type="email" 
-                placeholder="Añade tu email"
+                type="password" 
+                placeholder="Añade una contraseña"
                 className="w-full bg-transparent border border-white/40 rounded-full py-3 px-5 text-white placeholder:text-white/50 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold ml-1">Nombre de usuario:</label>
-              <input 
-                type="text" 
-                placeholder="Añade tu nombre"
-                className="w-full bg-transparent border border-white/40 rounded-full py-3 px-5 text-white placeholder:text-white/50 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all"
-              />
-            </div>
-
+            {/* Botón Finalizar -> VA AL MAPA */}
             <div className="pt-2">
-              <Link href="/password">
+              <Link href="/restaurants">
                 <button className="bg-white text-[#2F54EB] px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-md">
-                  Siguiente
+                  Finalizar
                 </button>
               </Link>
             </div>
+
           </div>
         </div>
       </div>
@@ -78,7 +72,7 @@ export default function SignInPage() {
       </div>
 
       {/* --- TEXTO LEGAL --- */}
-      {/* Posicionado con 'absolute' para que flote libremente abajo y no empuje nada */}
+      {/* Igual que en la otra página: fuera y abajo */}
       <p className="absolute bottom-3 left-6 text-[10px] text-gray-400 font-medium tracking-tight">
         Prueba técnica ©Tailor hub SL 2019 - 2024
       </p>
