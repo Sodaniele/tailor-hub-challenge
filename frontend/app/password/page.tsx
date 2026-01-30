@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function PasswordPage() {
   return (
@@ -10,16 +10,23 @@ export default function PasswordPage() {
       {/* --- COLUMNA IZQUIERDA --- */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
         
-        {/* Se ha eliminado el div que contenía el texto 'SingIn' */}
-
         {/* TARJETA AZUL */}
         <div className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           
-          {/* Header: Logo y Flecha (Vuelve a signin) */}
+          {/* Header: Logo CORREGIDO y Flecha */}
           <div className="flex flex-col items-start gap-6 mb-6">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-6 h-6 fill-white text-white" />
-              <span className="text-3xl font-bold tracking-tight">tailor</span>
+            <div className="flex items-center gap-3">
+              <div className="text-white">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M12 2V22M12 2L12 22M2 12H22M2 12L22 12M5 5L19 19M19 5L5 19" 
+                    stroke="currentColor" 
+                    strokeWidth="3.5" 
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+              <span className="text-3xl font-bold tracking-tighter lowercase">tailor</span>
             </div>
             
             <Link 
