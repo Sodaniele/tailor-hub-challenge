@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-// --- ESTA ES LA LÍNEA QUE TIENES QUE AÑADIR/CORREGIR ---
-import Navbar from "../components/NavBar";
-// ------------------------------------------------------
+// IMPORTAMOS EL PROVIDER
+import { AuthProvider } from "../context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +12,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap", // Añadido para mejor rendimiento de carga
 });
 
 export const metadata: Metadata = {
@@ -27,13 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es"> {/* Cambiado a español */}
+    <html lang="es"> 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#F2F2F2]`}
       >
-        {/* El Navbar solo se mostrará si no estás en la landing, 
-            pero por ahora pongámoslo para verlo */}
-        {children}
+        {/* ENVOLVEMOS LOS HIJOS CON EL PROVIDER */}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

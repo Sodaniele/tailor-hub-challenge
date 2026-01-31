@@ -1,0 +1,404 @@
+{
+  "restaurants": [
+    {
+      "id": 1,
+      "name": "Mission Chinese Food",
+      "neighborhood": "Manhattan",
+      "photograph": "1.jpg",
+      "address": "171 E Broadway, New York, NY 10002",
+      "latitude": 40.713829,
+      "longitude": -73.989667,
+      "image": "https://video-images.vice.com/articles/590647db9ac0f921f03ed8d9/lede/1493583856927-mcf_halloween_017.jpeg?crop=1xw:0.8439609902475619xh;center,center&resize=1200:*",
+      "cuisine_type": "Asiática",
+      "operating_hours": {
+        "Monday": "5:30 pm - 11:00 pm",
+        "Tuesday": "5:30 pm - 12:00 am",
+        "Wednesday": "5:30 pm - 12:00 am",
+        "Thursday": "5:30 pm - 12:00 am",
+        "Friday": "5:30 pm - 12:00 am",
+        "Saturday": "12:00 pm - 4:00 pm, 5:30 pm - 12:00 am",
+        "Sunday": "12:00 pm - 4:00 pm, 5:30 pm - 11:00 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Mission Chinese Food ha crecido desde sus días en Orchard Street hasta convertirse en un gran restaurante de dos pisos equipado con horno de pizza. Sí, todavía tiene todos los éxitos, pero también han añadido una barra cruda y platos espectaculares. Puedes comer mucho sin arruinarte."
+        },
+        {
+          "name": "Morgan",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "¡Este lugar es una pasada! Pedidos obligatorios: FIDEOS DE TÉ VERDE, suenan raros pero son increíbles. El pastrami kung pao y el tartar de ternera fueron un aperitivo divertido. El tofu ma po es SÚPER picante pero delicioso. Ojalá hubiéramos ido con un grupo más grande para probar más cosas."
+        },
+        {
+          "name": "Jason",
+          "date": "26 Octubre 2016",
+          "rating": 3,
+          "comments": "Estaba MUY emocionado por venir aquí. El lugar tenía un toque punk rock y buen ambiente, pero la comida fue solo pasable. Las mejores cualidades quedaron eclipsadas por lo que creo que fueron malas decisiones del personal de cocina."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Emily",
+      "neighborhood": "Brooklyn",
+      "photograph": "2.jpg",
+      "address": "919 Fulton St, Brooklyn, NY 11238",
+      "latitude": 40.683555,
+      "longitude": -73.966393,
+      "image": "https://media-cdn.tripadvisor.com/media/photo-s/17/07/cd/40/the-colony-and-vodka.jpg",
+      "cuisine_type": "Pizza",
+      "operating_hours": {
+        "Monday": "5:30 pm - 11:00 pm",
+        "Tuesday": "5:30 pm - 11:00 pm",
+        "Wednesday": "5:30 pm - 11:00 pm",
+        "Thursday": "5:30 pm - 11:00 pm",
+        "Friday": "5:30 pm - 11:00 pm",
+        "Saturday": "5:00 pm - 11:30 pm",
+        "Sunday": "12:00 pm - 3:00 pm, 5:00 pm - 11:00 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steph",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Comida de cinco estrellas, ambiente de dos. Definitivamente pediría para llevar, pero no creo que tenga energía para lidiar con la ridiculez hipster de nuevo. Cuando nos fuimos la espera era de dos horas."
+        },
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Este acogedor restaurante de Clinton Hill destaca tanto en pizzas sencillas como inusuales al horno de leña. Si quieres probar esto último, considera pedir la Emily, con pistachos, queso trufado y miel. También tienen una hamburguesa que algunos consideran de las mejores de la ciudad."
+        },
+        {
+          "name": "Sam",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "Ambiente de 5 estrellas, muy acogedor y gran personal. Comida de 5 estrellas, su hamburguesa Emmy es escandalosamente buena. Demasiado jugosa y adictiva. También prueba la pizza Colony: la mezcla de pepperoni salado, miel dulce y aceite de chile picante dejará tu boca confundida y feliz."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Kang Ho Dong Baekjeong",
+      "neighborhood": "Manhattan",
+      "photograph": "3.jpg",
+      "address": "1 E 32nd St, New York, NY 10016",
+      "latitude": 40.747143,
+      "longitude": -73.985414,
+      "image": "https://media-cdn.tripadvisor.com/media/photo-s/06/da/d6/de/kang-hodong-baekjeong.jpg",
+      "cuisine_type": "Asiática",
+      "operating_hours": {
+        "Monday": "11:30 am - 2:00 am",
+        "Tuesday": "11:30 am - 2:00 am",
+        "Wednesday": "11:30 am - 2:00 am",
+        "Thursday": "11:30 am - 2:00 am",
+        "Friday": "11:30 am - 6:00 am",
+        "Saturday": "11:30 am - 6:00 am",
+        "Sunday": "11:30 am - 2:00 am"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Las mesas de este favorito de la calle 32 tienen parrillas para cocinar costillas, falda, lengua y más. Los platos de acompañamiento son uniformemente buenos. Si está disponible, pide la 'caja de almuerzo' de kimchi y arroz. Genial para grupos grandes."
+        },
+        {
+          "name": "ZS",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "He estado en Corea y en muchos sitios de BBQ. Pedimos panceta y ternera, y sopa de marisco. Dos carnes y una sopa fue perfecto para dos. ¡Las porciones de carne son geniales! La ternera estaba jugosa y tierna. Los acompañamientos excelentes."
+        },
+        {
+          "name": "Emily",
+          "date": "26 Octubre 2016",
+          "rating": 2,
+          "comments": "Meh. He probado su local en Jersey también pero la calidad de la carne está bajando severamente. ¿Un sitio de barbacoa coreana con carne mediocre? ¡Creo que no!"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Katz's Delicatessen",
+      "neighborhood": "Manhattan",
+      "photograph": "4.jpg",
+      "address": "205 E Houston St, New York, NY 10002",
+      "latitude": 40.722216,
+      "longitude": -73.987501,
+      "image": "https://www.livingfla.com/wp-content/uploads/2019/04/katz-1-500.jpg",
+      "cuisine_type": "Americana",
+      "operating_hours": {
+        "Monday": "8:00 am - 10:30 pm",
+        "Tuesday": "8:00 am - 10:30 pm",
+        "Wednesday": "8:00 am - 10:30 pm",
+        "Thursday": "8:00 am - 2:30 am",
+        "Friday": "8:00 am - Sat",
+        "Saturday": "Open 24 hours",
+        "Sunday": "Sat - 10:30 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "En 127 años, poco ha cambiado en Katz's. Sigue siendo una de las charcuterías judías esenciales de Nueva York. Todo huele intensamente a pastrami y pan de centeno. Los sándwiches son masivos, mejor para compartir. Pide en el mostrador y no olvides dar propina a tu cortador."
+        },
+        {
+          "name": "Allen",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "Si viviera en NY y me diera diabetes por comer aquí cada vez, lo haría una y otra vez solo por ese primer bocado. Estos chicos saben hacer un sándwich. ¡El infarto viene gratis! Fue mi primera parada al visitar NYC."
+        },
+        {
+          "name": "David",
+          "date": "26 Octubre 2016",
+          "rating": 2,
+          "comments": "Ok, vinimos cuatro. Es caro y simple. En serio, un montón de carne en pan de centeno. Queso extra. Pepinillos gratis. Pero 20 dólares por medio sándwich sin mucho sabor... Y una cola larguísima. Prefiero ir a mirar dónde se sentaron Harry y Sally e irme a otro deli."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Roberta's Pizza",
+      "neighborhood": "Brooklyn",
+      "photograph": "5.jpg",
+      "address": "261 Moore St, Brooklyn, NY 11206",
+      "latitude": 40.705089,
+      "longitude": -73.933585,
+      "image": "https://c8.alamy.com/compes/dp9a5f/robertas-pizza-restaurant-en-east-williamsburg-de-brooklyn-dp9a5f.jpg",
+      "cuisine_type": "Pizza",
+      "operating_hours": {
+        "Monday": "11:00 am - 12:00 am",
+        "Tuesday": "11:00 am - 12:00 am",
+        "Wednesday": "11:00 am - 12:00 am",
+        "Thursday": "11:00 am - 12:00 am",
+        "Friday": "11:00 am - 12:00 am",
+        "Saturday": "10:00 am - 12:00 am",
+        "Sunday": "10:00 am - 12:00 am"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Roberta's es el epicentro de la escena gastronómica moderna de Brooklyn. Las pizzas son fantásticas, pero el restaurante destaca con sus platos de verduras. Además de las pizzas, considera pedir los rábanos, la ensalada romana o la remolacha asada."
+        },
+        {
+          "name": "Raymond",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Roberta's, una de las mejores pizzas que he probado. Sitio muy moderno y hipster. Vinimos a comer un día de semana y ya había cola. El espacio es algo estrecho, conocerás a tus vecinos pronto. La pizza es deliciosa. Es un plus ver cómo las hacen en el horno."
+        },
+        {
+          "name": "Laurel",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "La pizza es fantástica, no LA mejor que he probado, pero volvería por el buen ambiente. Tiene MUCHO hype en Nueva York, y dudo si se merece tanto, pero es un gran sitio para visitar si estás por la zona."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Hometown BBQ",
+      "neighborhood": "Brooklyn",
+      "photograph": "6.jpg",
+      "address": "454 Van Brunt St, Brooklyn, NY 11231",
+      "latitude": 40.674925,
+      "longitude": -74.016162,
+      "image": "https://es.nycgo.com/images/venues/6326/hometownbbq_redhook_brooklyn_nyc_kengoodman_hometownbbq-153-3__x_large.jpg",
+      "cuisine_type": "Americana",
+      "operating_hours": {
+        "Monday": "Cerrado",
+        "Tuesday": "12:00 pm - 10:00 pm",
+        "Wednesday": "12:00 pm - 10:00 pm",
+        "Thursday": "12:00 pm - 10:00 pm",
+        "Friday": "12:00 pm - 11:00 pm",
+        "Saturday": "12:00 pm - 11:00 pm",
+        "Sunday": "12:00 pm - 9:00 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Los aficionados a la barbacoa coinciden: Billy Durney cocina una de las mejores BBQ estilo Texas de la ciudad. Clásicos como la falda ahumada y costillas son una opción sólida, pero también hay tacos de panceta. Es autoservicio y suele haber cola, pero por la carne vale la pena el viaje a Red Hook."
+        },
+        {
+          "name": "Michelle",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "En general, una gran prueba de BBQ en Nueva York. La decoración es rústica con buena cantidad de asientos. ¡Definitivamente me encantaría volver y probar ese monstruo de costilla de ternera!"
+        },
+        {
+          "name": "Ai-Mei",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Mmmmmm, ¡qué joya en Brooklyn! Me encanta lo suave que es su falda. Sus tacos de cerdo son para morirse. Muy económico para la cantidad que te dan. Recomiendo encarecidamente este lugar."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Superiority Burger",
+      "neighborhood": "Manhattan",
+      "photograph": "7.jpg",
+      "address": "430 E 9th St, New York, NY 10009",
+      "latitude": 40.727397,
+      "longitude": -73.983645,
+      "image": "http://www.wazwu.com/blog/wp-content/uploads/2015/10/img_6912.jpg",
+      "cuisine_type": "Americana",
+      "operating_hours": {
+        "Monday": "11:30 am - 10:00 pm",
+        "Tuesday": "Cerrado",
+        "Wednesday": "11:30 am - 10:00 pm",
+        "Thursday": "11:30 am - 10:00 pm",
+        "Friday": "11:30 am - 10:00 pm",
+        "Saturday": "11:30 am - 10:00 pm",
+        "Sunday": "11:30 am - 10:00 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "El pequeño café de Brooks Headley en East Village es mucho más que un sitio de hamburguesas vegetarianas. Convierten verduras de temporada en ensaladas deliciosas. El menú cambia a diario. Puedes comer mucho por menos de 15$."
+        },
+        {
+          "name": "Gabriel",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "Vine aquí tras leer una reseña brillante. No bromeaban, ¡Superiority Burger es probablemente la mejor experiencia vegetariana que he tenido!"
+        },
+        {
+          "name": "Shivi",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Grandes sabores y muy satisfactorio. Local súper pequeño con pocos asientos. La ensalada de patata era muy ligera y sabía limpia. El sándwich era sorprendentemente delicioso, aunque muy pequeño, pero lleno de sabor. El personal fue súper agradable."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "The Dutch",
+      "neighborhood": "Manhattan",
+      "photograph": "8.jpg",
+      "address": "131 Sullivan St, New York, NY 10012",
+      "latitude": 40.726584,
+      "longitude": -74.002082,
+      "image": "https://es.nycgo.com/images/venues/4829/thedutch29_sa_bar-room_sm__x_large.jpg",
+      "cuisine_type": "Americana",
+      "operating_hours": {
+        "Monday": "11:30 am - 3:00 pm, 5:30 pm - 11:00 pm",
+        "Tuesday": "11:30 am - 3:00 pm, 5:30 pm - 11:00 pm",
+        "Wednesday": "11:30 am - 3:00 pm, 5:30 pm - 11:00 pm",
+        "Thursday": "11:30 am - 3:00 pm, 5:30 pm - 11:00 pm",
+        "Friday": "11:30 am - 3:00 pm, 5:30 pm - 11:30 pm",
+        "Saturday": "10:00 am - 3:00 pm, 5:30 pm - 11:30 pm",
+        "Sunday": "10:00 am - 3:00 pm, 5:30 pm - 11:00 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "En los últimos cinco años, The Dutch se ha convertido en el restaurante americano por excelencia que buscaban sus chefs. Es una gran opción cuando se te antoja un filete, una hamburguesa o ostras. The Dutch es ahora parte indeleble del paisaje de Soho."
+        },
+        {
+          "name": "Loren",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Vine un sábado por la noche al azar. Me sorprendió gratamente la comida y el servicio. Tomamos calamares y ceviche con aguacate. De postre suflé de plátano. Todo delicioso. Me encantaría volver."
+        },
+        {
+          "name": "Lori",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Aparte de la zona de comedor un poco claustrofóbica y el ruido, volvería a The Dutch sin dudarlo. La comida está sorprendentemente bien ejecutada. Asegúrate de reservar con antelación."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Mu Ramen",
+      "neighborhood": "Queens",
+      "photograph": "9.jpg",
+      "address": "1209 Jackson Ave, Queens, NY 11101",
+      "latitude": 40.743797,
+      "longitude": -73.950652,
+      "image": "https://resizer.otstatic.com/v2/photos/huge/25670650.jpg",
+      "cuisine_type": "Asiática",
+      "operating_hours": {
+        "Monday": "5:00 pm - 10:00 pm",
+        "Tuesday": "5:00 pm - 10:00 pm",
+        "Wednesday": "5:00 pm - 10:00 pm",
+        "Thursday": "5:00 pm - 10:00 pm",
+        "Friday": "5:00 pm - 11:00 pm",
+        "Saturday": "5:00 pm - 11:00 pm",
+        "Sunday": "5:00 pm - 10:00 pm"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "La tienda de ramen de Joshua Smookler sirve uno de los mejores caldos tonkotsu. Más allá del ramen, Mu también ofrece platos de alta cocina como alitas de pollo rellenas de foie gras. Mu está a solo 10 minutos de Midtown en el tren 7."
+        },
+        {
+          "name": "Brittany",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "En general, definitivamente recomendaría este lugar si disfrutas de fideos rizados gruesos con un caldo intenso y espeso. Si no te gusta eso, hay otras opciones pero no puedo responder por ellas."
+        },
+        {
+          "name": "Sally",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Uno de los lugares de ramen más sabrosos y únicos en los que he estado en Nueva York, pero también el más caro. Creo que en general vale la pena probarlo. Sin embargo, no es una tienda de ramen casual para todos los días."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Casa Enrique",
+      "neighborhood": "Queens",
+      "photograph": "10.jpg",
+      "address": "5-48 49th Ave, Queens, NY 11101",
+      "latitude": 40.743394,
+      "longitude": -73.954235,
+      "image": "https://i.pinimg.com/474x/47/b1/d3/47b1d3175589f19f58a35cfcd78b3e73--city-restaurants-mexican-restaurants.jpg",
+      "cuisine_type": "Mexicana",
+      "operating_hours": {
+        "Monday": "5:00 pm - 12:00 am",
+        "Tuesday": "5:00 pm - 12:00 am",
+        "Wednesday": "5:00 pm - 12:00 am",
+        "Thursday": "5:00 pm - 12:00 am",
+        "Friday": "5:00 pm - 12:00 am",
+        "Saturday": "11:00 am - 12:00 am",
+        "Sunday": "11:00 am - 12:00 am"
+      },
+      "reviews": [
+        {
+          "name": "Steve",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "Dirígete a este relajado restaurante de Long Island City para tacos de lengua, pollo con mole y tostadas de cangrejo. El único restaurante mexicano con estrella Michelin de Nueva York es una opción genial para el almuerzo."
+        },
+        {
+          "name": "Rob",
+          "date": "26 Octubre 2016",
+          "rating": 5,
+          "comments": "El hype era real. Por favor id. Pedid el ceviche. Y el tres leches. De nada."
+        },
+        {
+          "name": "Jason",
+          "date": "26 Octubre 2016",
+          "rating": 4,
+          "comments": "Para ser un restaurante con estrella Michelin, tiene un precio justo y la comida es bastante buena. El punto culminante de la noche fue el pastel de tres leches. Probablemente el mejor que he probado, para ser honesto. No demasiado dulce y muy lechoso. En general, uno de mis 3 mexicanos favoritos en NY."
+        }
+      ]
+    }
+  ]
+}

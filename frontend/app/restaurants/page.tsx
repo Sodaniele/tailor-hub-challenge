@@ -1,91 +1,79 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Map, { Marker } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Star, MapPin, MoveDown, MoveUp } from 'lucide-react'; 
-import Link from 'next/link';
+import { Star } from 'lucide-react'; 
+import { useRouter } from 'next/navigation'; 
+import { useRestaurantStore } from '@/store/useRestaurantStore';
+
+// 1. IMPORTAMOS EL NAVBAR
+import Navbar from '@/components/NavBar';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1Ijoic29kYW5pZWxlIiwiYSI6ImNtbDE5YXF4NDAxc3AzZ3F0ZnlldTVlb2kifQ.1myKvxq_xL0TTkz0ZQ0gYQ';
 
-const RESTAURANTS = [
-  { id: 1, name: 'Goiko Grill', address: 'Calle del Prado, 12, Madrid', rating: 5, reviews: 120, image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2000&auto=format&fit=crop', latitude: 40.4167, longitude: -3.695 },
-  { id: 2, name: 'Sushi Bar', address: 'Gran Vía, 45, Madrid', rating: 4, reviews: 85, image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=2000&auto=format&fit=crop', latitude: 40.4203, longitude: -3.7058 },
-  { id: 3, name: 'La Tagliatella', address: 'Paseo de la Castellana, 89', rating: 3, reviews: 40, image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2000&auto=format&fit=crop', latitude: 40.4125, longitude: -3.71 },
-  { id: 4, name: 'SteakHouse 89', address: 'Calle de Alcalá, 200', rating: 5, reviews: 210, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2000&auto=format&fit=crop', latitude: 40.418, longitude: -3.685 },
-  { id: 5, name: 'Casa Paco', address: 'Malasaña, Madrid', rating: 4, reviews: 66, image: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=2000&auto=format&fit=crop', latitude: 40.425, longitude: -3.704 },
-  { id: 6, name: 'El Rincón Vegano', address: 'Lavapiés, Madrid', rating: 5, reviews: 98, image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?q=80&w=2000&auto=format&fit=crop', latitude: 40.409, longitude: -3.701 },
-  { id: 7, name: 'Burgers & Co', address: 'Chamberí, Madrid', rating: 4, reviews: 44, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=2000&auto=format&fit=crop', latitude: 40.434, longitude: -3.704 },
-  { id: 8, name: 'Pasta Fresca', address: 'Barrio Salamanca', rating: 3, reviews: 32, image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?q=80&w=2000&auto=format&fit=crop', latitude: 40.427, longitude: -3.688 },
-  { id: 9, name: 'Tacos MX', address: 'La Latina', rating: 5, reviews: 150, image: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=2000&auto=format&fit=crop', latitude: 40.4105, longitude: -3.707 },
-  { id: 10, name: 'Café Central', address: 'Sol, Madrid', rating: 4, reviews: 210, image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2000&auto=format&fit=crop', latitude: 40.417, longitude: -3.703 },
-  { id: 11, name: 'Fusion Nikkei', address: 'Retiro', rating: 5, reviews: 77, image: 'https://images.unsplash.com/photo-1555992336-03a23c4a9f5d?q=80&w=2000&auto=format&fit=crop', latitude: 40.414, longitude: -3.689 },
-  { id: 12, name: 'Street Wok', address: 'Argüelles', rating: 4, reviews: 59, image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=2000&auto=format&fit=crop', latitude: 40.4305, longitude: -3.715 },
-];
+export default function RestaurantsListPage() {
+  const restaurants = useRestaurantStore((state) => state.restaurants);
+  const loading = useRestaurantStore((state) => state.loading);
+  const fetchRestaurants = useRestaurantStore((state) => state.fetchRestaurants);
 
-export default function RestaurantsPage() {
+  const router = useRouter(); 
+  
   const [viewState, setViewState] = useState({
-    latitude: 40.4168,
-    longitude: -3.7038,
-    zoom: 13,
+    latitude: 40.7128,
+    longitude: -74.0060,
+    zoom: 11,
+    pitch: 0,
+    bearing: 0
   });
 
-  const [activeRestaurantId, setActiveRestaurantId] = useState<number | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState<number | null>(null);
 
-  const handleSelectRestaurant = (restaurant: any) => {
-    setActiveRestaurantId(restaurant.id);
-    setViewState({
-      latitude: restaurant.latitude,
-      longitude: restaurant.longitude,
-      zoom: 14,
-    });
-  };
+  useEffect(() => {
+    fetchRestaurants();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const goToRestaurant = useCallback(
+    (res: any) => {
+      const lat = parseFloat(res.latitude);
+      const lng = parseFloat(res.longitude);
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+        setActiveId(res.id);
+        setViewState((prev) => ({
+          ...prev,
+          latitude: lat,
+          longitude: lng,
+          zoom: 15,
+          transitionDuration: 1000,
+        }));
+      }
+
+      router.push(`/restaurants/${res.id}`);
+    },
+    [router]
+  );
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-white">
+        <div className="w-10 h-10 border-4 border-[#2F54EB] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div className="h-screen w-full bg-[#F9F9F9] flex flex-col font-sans overflow-hidden">
+    <div className="h-screen w-full bg-[#F9F9F9] flex flex-col overflow-hidden relative">
       
-      {/* HEADER */}
-      <header className="flex justify-end items-center px-8 py-6 bg-white/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="relative">
-          <div 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-black transition-colors"
-          >
-            <span className="font-medium text-sm">Nombre usuario</span>
-            {isMenuOpen ? <MoveUp className="w-3 h-3" /> : <MoveDown className="w-3 h-3" />}
-          </div>
+      {/* 2. AQUÍ ESTÁ EL NAVBAR AÑADIDO */}
+      
+      <Navbar />
 
-          {/* DESPLEGABLE ESTRECHO CON ENLACE A AÑADIR */}
-          {isMenuOpen && (
-            <div className="absolute right-0 mt-3 w-40 bg-[#2F54EB] rounded-[24px] p-4 shadow-2xl z-50 text-white animate-in fade-in zoom-in duration-200">
-              <div className="space-y-3 mb-4">
-                <button className="block w-full text-left hover:text-white/80 transition-colors">
-                  <span className="text-xs font-medium">Mi cuenta</span>
-                </button>
-                
-                {/* ENLACE FUNCIONAL A LA PÁGINA DE CREACIÓN */}
-                <Link href="/restaurants/add" className="block w-full text-left hover:text-white/80 transition-colors">
-                  <span className="text-xs font-medium">Añadir restaurante</span>
-                </Link>
-              </div>
-
-              <div className="h-[1px] bg-white/20 w-full mb-4" />
-
-              <Link href="/login" className="block">
-                <button className="w-full bg-white text-black font-extrabold py-2 rounded-full text-[10px] hover:bg-gray-100 transition-colors shadow-sm uppercase tracking-wider">
-                  Salir
-                </button>
-              </Link>
-            </div>
-          )}
-        </div>
-      </header>
-
-      <div className="flex-1 flex gap-6 px-6 pb-6 overflow-hidden">
+      <div className="flex-1 flex gap-6 px-6 py-6 overflow-hidden">
         {/* MAPA */}
-        <div className="w-1/2 h-full rounded-[32px] overflow-hidden relative shadow-lg bg-slate-800">
+        <div className="w-1/2 h-full rounded-[32px] overflow-hidden shadow-2xl bg-gray-200">
           <Map
             {...viewState}
             onMove={(evt) => setViewState(evt.viewState)}
@@ -93,21 +81,43 @@ export default function RestaurantsPage() {
             mapStyle="mapbox://styles/mapbox/dark-v11"
             mapboxAccessToken={MAPBOX_TOKEN}
           >
-            {RESTAURANTS.map((restaurant) => {
-              const isActive = restaurant.id === activeRestaurantId;
+            {restaurants.map((res: any) => {
+              const lat = parseFloat(res.latitude);
+              const lng = parseFloat(res.longitude);
+              if (isNaN(lat) || isNaN(lng)) return null;
+
+              const isActive = res.id === activeId;
+
               return (
                 <Marker
-                  key={restaurant.id}
-                  latitude={restaurant.latitude}
-                  longitude={restaurant.longitude}
+                  key={res.id}
+                  latitude={lat}
+                  longitude={lng}
                   anchor="bottom"
-                  onClick={(e: any) => {
-                    e.originalEvent.stopPropagation();
-                    handleSelectRestaurant(restaurant);
-                  }}
                 >
-                  <div className={`transition-all cursor-pointer drop-shadow-md ${isActive ? 'scale-125' : 'hover:scale-110'}`}>
-                    <MapPin className={`w-8 h-8 ${isActive ? 'fill-yellow-400 text-yellow-400' : 'fill-[#2F54EB] text-white'}`} />
+                  <div
+                    onClick={() => {
+                      setActiveId(res.id);
+                      setViewState((prev) => ({
+                        ...prev,
+                        latitude: lat,
+                        longitude: lng,
+                        zoom: 14,
+                      }));
+                    }}
+                    className={`cursor-pointer transition-all ${
+                      isActive ? 'scale-110 z-50' : 'hover:scale-105'
+                    }`}
+                  >
+                    <img
+                      src={
+                        isActive
+                          ? '/pin-selected.png'
+                          : '/pin-default.png'
+                      }
+                      className="w-12 drop-shadow-md"
+                      alt="pin"
+                    />
                   </div>
                 </Marker>
               );
@@ -115,40 +125,62 @@ export default function RestaurantsPage() {
           </Map>
         </div>
 
-        {/* LISTA CON ENLACES DINÁMICOS */}
-        <div className="w-1/2 h-full overflow-y-auto pr-2 space-y-4 scrollbar-hide">
-          {RESTAURANTS.map((restaurant) => {
-            const isActive = restaurant.id === activeRestaurantId;
-            const isDimmed = activeRestaurantId !== null && !isActive;
+        {/* LISTA DE RESTAURANTES */}
+        <div className="w-1/2 h-full overflow-y-auto pr-2 space-y-4">
+          {restaurants.map((res: any) => {
+            const isActive = activeId === res.id;
+            const rating = res.rating || 5;
+            const reviewCount = res.reviews?.length || 0;
+
+            // EFECTO FOCUS/DISFOCUS
+            const titleClass = isActive ? 'text-black font-bold' : 'text-gray-400 font-bold';
+            const textClass = isActive ? 'text-gray-700' : 'text-gray-400';
+            const containerClass = isActive 
+              ? 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all shadow-lg scale-[1.02] z-10 ring-1 ring-black/5'
+              : 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all hover:bg-gray-50 opacity-70';
+
+            const imgClass = isActive 
+              ? 'w-32 h-32 rounded-[18px] object-cover'
+              : 'w-32 h-32 rounded-[18px] object-cover grayscale-[30%]';
+
             return (
-              <Link 
-                href={`/restaurants/${restaurant.id}`} 
-                key={restaurant.id}
-                className="block"
+              <div
+                key={res.id}
+                onClick={() => goToRestaurant(res)}
+                className={containerClass}
               >
-                <div className={`transition-opacity duration-300 cursor-pointer ${
-                    isActive ? 'opacity-100' : isDimmed ? 'opacity-40' : 'opacity-100'
-                  }`}
-                >
-                  <div className={`bg-white rounded-[24px] p-4 flex gap-4 shadow-sm border-2 transition-all ${isActive ? 'border-[#2F54EB]' : 'border-transparent'}`}>
-                    <div className="w-32 h-32 shrink-0 rounded-[20px] overflow-hidden">
-                      <img src={restaurant.image} alt={restaurant.name} className="w-full h-full object-cover" />
+                <img
+                  src={res.image}
+                  className={imgClass}
+                  alt={res.name}
+                />
+
+                <div className="flex flex-col justify-center flex-1">
+                  <h3 className={`text-xl leading-tight mb-1 transition-colors ${titleClass}`}>
+                    {res.name}
+                  </h3>
+                  <p className={`text-sm mb-3 line-clamp-1 transition-colors ${textClass}`}>
+                    {res.address}
+                  </p>
+
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          size={18}
+                          className={star <= rating 
+                            ? 'fill-[#2F54EB] text-[#2F54EB]'
+                            : 'fill-gray-100 text-gray-100'}
+                        />
+                      ))}
                     </div>
-                    <div className="flex flex-col justify-center gap-1">
-                      <h3 className="text-xl font-bold text-gray-900">{restaurant.name}</h3>
-                      <p className="text-gray-400 text-sm mb-2">{restaurant.address}</p>
-                      <div className="flex items-center gap-2">
-                        <div className="flex gap-0.5">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star key={star} className={`w-4 h-4 ${star <= restaurant.rating ? 'fill-[#2F54EB] text-[#2F54EB]' : 'fill-gray-200 text-gray-200'}`} />
-                          ))}
-                        </div>
-                        <span className="text-xs text-gray-400 font-medium">({restaurant.reviews} comentarios)</span>
-                      </div>
-                    </div>
+                    <span className={`text-xs font-medium transition-colors ${textClass}`}>
+                      ({reviewCount} comentarios)
+                    </span>
                   </div>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>

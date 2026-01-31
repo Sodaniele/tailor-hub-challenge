@@ -1,6 +1,8 @@
+// src/interfaces/user.interface.ts
+
 export interface User {
   id: string;
   username: string;
-  password: string; // La guardaremos encriptada
-  favorites: number[]; // Array de IDs de los restaurantes favoritos
+  password: string;
+  favorites: number[]; 
 }

@@ -1,85 +1,99 @@
 'use client';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import axios from 'axios';
 
-export default function PasswordPage() {
+function PasswordForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Recuperamos lo que pusiste en la pantalla anterior
+  const email = searchParams.get('email') || '';
+  const username = searchParams.get('username') || '';
+  
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleFinish = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!password) return alert("Escribe una contraseña");
+    setLoading(true);
+
+    try {
+      // AQUÍ es donde realmente se crea el usuario en el servidor
+      await axios.post('http://localhost:4000/api/auth/register', {
+        username: username,
+        password: password,
+        email: email
+      });
+
+      alert("¡Registro completado con éxito!");
+      router.push('/login'); // Ahora sí, después de registrar, vamos al login
+    } catch (error: any) {
+      alert(error.response?.data?.message || "Error al registrar");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    // Estructura base sin saltos visuales
     <div className="h-screen w-full bg-white p-2 pb-10 flex gap-2 font-sans overflow-hidden relative">
-      
-      {/* --- COLUMNA IZQUIERDA --- */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
-        
-        {/* TARJETA AZUL */}
-        <div className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
-          
-          {/* Header: Logo CORREGIDO y Flecha */}
+        <form onSubmit={handleFinish} className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           <div className="flex flex-col items-start gap-6 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="text-white">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path 
-                    d="M12 2V22M12 2L12 22M2 12H22M2 12L22 12M5 5L19 19M19 5L5 19" 
-                    stroke="currentColor" 
-                    strokeWidth="3.5" 
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <span className="text-3xl font-bold tracking-tighter lowercase">tailor</span>
-            </div>
-            
-            <Link 
-              href="/signin" 
-              className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
-            >
+            <img src="/full-logo.png" alt="Logo" className="h-10 w-auto object-contain brightness-0 invert" />
+            <Link href="/signin" className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10">
               <ArrowLeft className="w-5 h-5" />
             </Link>
           </div>
 
-          {/* Formulario Contraseña */}
           <div className="space-y-6">
-            
-            {/* Input Contraseña */}
             <div className="space-y-2">
-              <label className="text-sm font-bold ml-1 block">
-                Crea una contraseña nueva
+              <label className="text-sm font-light ml-1 block">
+                Crea una contraseña para finalizar:
               </label>
               <input 
                 type="password" 
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Añade una contraseña"
-                className="w-full bg-transparent border border-white/40 rounded-full py-3 px-5 text-white placeholder:text-white/50 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all"
+                className="w-full bg-transparent border border-white/40 rounded-full py-3 px-5 text-white placeholder:text-white/30 focus:outline-none focus:border-white transition-all"
               />
             </div>
 
-            {/* Botón Finalizar -> VA AL MAPA */}
             <div className="pt-2">
-              <Link href="/restaurants">
-                <button className="bg-white text-[#2F54EB] px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-md">
-                  Finalizar
-                </button>
-              </Link>
+              <button 
+                type="submit"
+                disabled={loading}
+                className="bg-white text-[#2F54EB] px-12 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-md disabled:opacity-50"
+              >
+                {loading ? 'REGISTRANDO...' : 'FINALIZAR'}
+              </button>
             </div>
-
           </div>
-        </div>
+        </form>
       </div>
 
-      {/* --- COLUMNA DERECHA (FOTO) --- */}
       <div className="w-1/2 h-full rounded-[32px] overflow-hidden relative">
-        <img 
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop" 
-          alt="Restaurant Interior" 
-          className="w-full h-full object-cover"
-        />
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop" alt="Restaurant" className="w-full h-full object-cover"/>
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
-
-      {/* --- TEXTO LEGAL --- */}
+      
       <p className="absolute bottom-3 left-6 text-[10px] text-gray-400 font-medium tracking-tight">
-        Prueba técnica ©Tailor hub SL 2019 - 2024
+        Prueba técnica ©Tailor hub SL 2019 - 2026
       </p>
-
     </div>
+  );
+}
+
+// Next.js requiere Suspense para usar useSearchParams
+export default function PasswordPage() {
+  return (
+    <Suspense fallback={<div className="h-screen bg-white" />}>
+      <PasswordForm />
+    </Suspense>
   );
 }

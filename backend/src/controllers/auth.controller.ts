@@ -3,23 +3,41 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../interfaces/user.interface';
 
-// Simulación de base de datos de usuarios
-let users: User[] = [];
+// Forzamos a que el array acepte cualquier propiedad nueva como 'email'
+let users: any[] = [
+  {
+    id: "1",
+    username: "demo",
+    email: "demo@test.com",
+    password: "", 
+    favorites: [1, 2]
+  }
+];
+
+const initializeDemo = async () => {
+    users[0].password = await bcrypt.hash("123", 10);
+};
+initializeDemo();
 
 export const register = async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  // Ahora recibimos el email desde el registro
+  const { username, password, email } = req.body;
 
-  // Verificar si el usuario ya existe
-  if (users.find(u => u.username === username)) {
-    return res.status(400).json({ message: 'El usuario ya existe' });
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email y contraseña son requeridos' });
   }
 
-  // Encriptar contraseña
+  // IMPORTANTE: Buscamos si el email ya existe en lugar del username
+  if (users.find(u => u.email === email)) {
+    return res.status(400).json({ message: 'El email ya existe' });
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser: User = {
+  const newUser = {
     id: Date.now().toString(),
-    username,
+    username: username || email.split('@')[0], 
+    email: email, 
     password: hashedPassword,
     favorites: []
   };
@@ -29,19 +47,41 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const { username, password } = req.body;
-  const user = users.find(u => u.username === username);
+  // CAMBIO CLAVE: Extraemos 'email' del cuerpo de la petición
+  const { email, password } = req.body;
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  console.log("Intentando login con email:", email); // Para que lo veas en tu consola
+
+  // 1. Buscamos el usuario por su EMAIL
+  const user = users.find(u => u.email === email);
+
+  // 2. Si no existe por ese email, error
+  if (!user) {
+    return res.status(401).json({ message: 'El email no está registrado' });
+  }
+
+  // 3. Comparamos contraseña
+  const isMatch = await bcrypt.compare(password, user.password);
+  
+  if (!isMatch) {
     return res.status(401).json({ message: 'Credenciales inválidas' });
   }
 
-  // Crear el Token JWT
+  // 4. Crear el Token JWT
   const token = jwt.sign(
-    { id: user.id, username: user.username },
+    { id: user.id, email: user.email },
     process.env.JWT_SECRET || 'secret_key',
     { expiresIn: '1h' }
   );
 
-  res.json({ token, user: { id: user.id, username: user.username, favorites: user.favorites } });
+  // 5. Devolvemos el usuario
+  res.json({ 
+    token, 
+    user: { 
+        id: user.id, 
+        username: user.username, 
+        email: user.email,
+        favorites: user.favorites 
+    } 
+  });
 };
