@@ -45,35 +45,39 @@ export default function AddRestaurantPage() {
         return;
     }
 
-    // Guardamos en el store
-    await addRestaurant({
-        name: formData.name,
-        address: formData.address,
-        description: formData.description,
-        image: formData.image || "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80" // Imagen por defecto si no sube ninguna
-    });
+    try {
+      // Guardamos en el store
+      await addRestaurant({
+          name: formData.name,
+          address: formData.address,
+          description: formData.description,
+          image: formData.image || "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80" 
+      });
 
-    // Volvemos al mapa
-    router.push('/restaurants');
+      // MODIFICACIÓN AQUÍ: Redirigimos a la página de éxito anidada
+      router.push('/restaurants/add/success');
+
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      alert("Hubo un problema al guardar el restaurante.");
+    }
   };
 
   return (
     <div className="min-h-screen w-full bg-white font-sans flex flex-col relative">
       
-      {/* 4. AQUI VA EL NAVBAR COMPARTIDO (Sustituye a tu header manual) */}
       <Navbar />
 
-      {/* CONTENIDO PRINCIPAL (Tu diseño exacto) */}
       <main className="flex-1 flex flex-col items-center justify-center px-10 pb-20 max-w-7xl mx-auto w-full mt-10">
         
         <div className="mb-8 text-[#2F54EB]"><AsteriskIcon /></div>
 
-        <div className="flex gap-12 w-full items-start justify-center">
+        <div className="flex flex-col lg:flex-row gap-12 w-full items-start justify-center">
           
           {/* CUADRO DE IMAGEN CON BORDE NEGRO */}
           <div 
             onClick={() => !formData.image && fileInputRef.current?.click()}
-            className="w-[480px] aspect-square bg-[#F2F2F2] rounded-[24px] border border-black overflow-hidden flex items-center justify-center relative cursor-pointer"
+            className="w-full max-w-[480px] aspect-square bg-[#F2F2F2] rounded-[24px] border border-black overflow-hidden flex items-center justify-center relative cursor-pointer"
           >
             <input type="file" ref={fileInputRef} onChange={handleImageChange} className="hidden" accept="image/*" />
 
@@ -134,7 +138,6 @@ export default function AddRestaurantPage() {
               />
             </div>
 
-            {/* BOTÓN GUARDAR (Ahora funcional) */}
             <button 
               onClick={handleSave}
               className="px-10 py-2.5 rounded-full border border-black bg-white text-black font-bold text-sm hover:bg-black hover:text-white transition-all shadow-sm"
@@ -148,7 +151,7 @@ export default function AddRestaurantPage() {
       </main>
 
       <footer className="px-10 py-6 border-none text-center">
-        <p className="text-[10px] text-black font-medium opacity-40">Prueba técnica ©Tailor hub SL 2019 - 2024</p>
+        <p className="text-[10px] text-black font-medium opacity-40">Prueba técnica ©Tailor hub SL 2019 - 2026</p>
       </footer>
     </div>
   );
