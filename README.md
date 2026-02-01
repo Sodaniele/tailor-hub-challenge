@@ -6,11 +6,12 @@ Este proyecto es una aplicación Fullstack desarrollada como prueba técnica, qu
 
 ## 🌟 Puntos de Bonificación Implementados
 
+- ✅ **Sistema de Favoritos**: Persistencia de restaurantes favoritos por usuario
 - ✅ **Autenticación JWT**: Flujo seguro de login y registro.
 - ✅ **TypeScript 😍**: Tipado estricto en Frontend y Backend para un código profesional.
 - ✅ **TailwindCSS**: Estilos modernos y optimizados.
 - ✅ **Diseño Responsivo**: Interfaz 100% adaptada a móviles, tablets y escritorio.
-- ✅ **Gestión de Estado Global**: Implementada con **Zustand**.
+- ✅ **Gestión de Estado Global**: Implementada con **Zustand** para una experiencia de usuario fluida y sin recargas innecesarias.
 
 ---
 
@@ -80,3 +81,18 @@ Plaintext
 │ ├── components/ # UI Reutilizable
 │ └── store/ # Estado Global (Zustand)
 └── README.md
+
+🎯 Guía de Usuario: ¿Qué puedes hacer?
+Para evaluar la aplicación al 100%, te recomendamos seguir este flujo:
+
+- Registro y Login: Crea una cuenta nueva para generar tu propio perfil de usuario.
+- Explorar el Mapa: Navega por el mapa interactivo de New York. Haz clic en los pines para localizar restaurantes.
+  Gestionar Favoritos:
+- Haz clic en el icono del corazón de cualquier tarjeta de restaurante.
+- Verás cómo el contador de la esquina superior izquierda se actualiza en tiempo real.
+- Los favoritos persisten incluso si refrescas la página (se guardan en el servidor).
+- Ver Detalles: Haz clic en una tarjeta para ver la información extendida y las reseñas de otros usuarios.
+- Añadir Restaurante: Ve a la sección de añadir, completa el formulario con una imagen y recibe el feedback visual en la página de éxito. Si hay error, te redirigue a la pagina de error.
+- Dejar Reseñas: Comparte tu opinión en los restaurantes existentes.
+- Eliminar restaurante: Se puede eliminar un restaurante si seleccionas eliminar debajo de todo en su detalle
+- Editar restaurante: Se puede editar un restaurante si seleccionas editar debajo de todo en su detalle. Se abrirá una pagina nueva para poder editarlo.

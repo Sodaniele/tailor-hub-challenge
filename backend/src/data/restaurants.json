@@ -6,10 +6,8 @@
       "neighborhood": "Manhattan",
       "photograph": "1.jpg",
       "address": "171 E Broadway, New York, NY 10002",
-      "latlng": {
-        "lat": 40.713829,
-        "lng": -73.989667
-      },
+      "latitude": 40.713829,
+      "longitude": -73.989667,
       "image": "https://video-images.vice.com/articles/590647db9ac0f921f03ed8d9/lede/1493583856927-mcf_halloween_017.jpeg?crop=1xw:0.8439609902475619xh;center,center&resize=1200:*",
       "cuisine_type": "Asian",
       "operating_hours": {
@@ -26,7 +24,7 @@
           "name": "Steve",
           "date": "October 26, 2016",
           "rating": 4,
-          "comments": "Mission Chinese Food has grown up..."
+          "comments": "Mission Chinese Food has grown up!..."
         }
       ]
     },
@@ -36,10 +34,8 @@
       "neighborhood": "Brooklyn",
       "photograph": "2.jpg",
       "address": "919 Fulton St, Brooklyn, NY 11238",
-      "latlng": {
-        "lat": 40.683555,
-        "lng": -73.966393
-      },
+      "latitude": 40.683555,
+      "longitude": -73.966393,
       "image": "https://media-cdn.tripadvisor.com/media/photo-s/17/07/cd/40/the-colony-and-vodka.jpg",
       "cuisine_type": "Pizza",
       "operating_hours": {
@@ -50,6 +46,174 @@
         "Friday": "5:30 pm - 11:00 pm",
         "Saturday": "5:00 pm - 11:30 pm",
         "Sunday": "12:00 pm - 3:00 pm, 5:00 pm - 11:00 pm"
+      },
+      "reviews": []
+    },
+    {
+      "id": 3,
+      "name": "Kang Ho Dong Baekjeong",
+      "neighborhood": "Manhattan",
+      "photograph": "3.jpg",
+      "address": "1 E 32nd St, New York, NY 10016",
+      "latitude": 40.747143,
+      "longitude": -73.985414,
+      "image": "https://img.play.co.kr/play/GOODS/2000/2021/11/05/20211105151528615.jpg",
+      "cuisine_type": "Asian",
+      "operating_hours": {
+        "Monday": "11:30 am - 2:00 am",
+        "Tuesday": "11:30 am - 2:00 am",
+        "Wednesday": "11:30 am - 2:00 am",
+        "Thursday": "11:30 am - 2:00 am",
+        "Friday": "11:30 am - 6:00 am",
+        "Saturday": "11:30 am - 6:00 am",
+        "Sunday": "11:30 am - 2:00 am"
+      },
+      "reviews": []
+    },
+    {
+      "id": 4,
+      "name": "Katz's Delicatessen",
+      "neighborhood": "Manhattan",
+      "photograph": "4.jpg",
+      "address": "205 E Houston St, New York, NY 10002",
+      "latitude": 40.722216,
+      "longitude": -73.987501,
+      "image": "https://media.timeout.com/images/100486819/image.jpg",
+      "cuisine_type": "American",
+      "operating_hours": {
+        "Monday": "8:00 am - 10:30 pm",
+        "Tuesday": "8:00 am - 10:30 pm",
+        "Wednesday": "8:00 am - 10:30 pm",
+        "Thursday": "8:00 am - 2:30 am",
+        "Friday": "8:00 am - 24 Hours",
+        "Saturday": "24 Hours",
+        "Sunday": "24 Hours - 10:30 pm"
+      },
+      "reviews": []
+    },
+    {
+      "id": 5,
+      "name": "Roberta's Pizza",
+      "neighborhood": "Brooklyn",
+      "photograph": "5.jpg",
+      "address": "261 Moore St, Brooklyn, NY 11206",
+      "latitude": 40.705089,
+      "longitude": -73.933585,
+      "image": "https://pyxis.nymag.com/v1/imgs/14e/669/18063065671e6263595eb48398072049e2-robertas-pizza.rhorizontal.w700.jpg",
+      "cuisine_type": "Pizza",
+      "operating_hours": {
+        "Monday": "11:00 am - 12:00 am",
+        "Tuesday": "11:00 am - 12:00 am",
+        "Wednesday": "11:00 am - 12:00 am",
+        "Thursday": "11:00 am - 12:00 am",
+        "Friday": "11:00 am - 12:00 am",
+        "Saturday": "10:00 am - 12:00 am",
+        "Sunday": "10:00 am - 12:00 am"
+      },
+      "reviews": []
+    },
+    {
+      "id": 6,
+      "name": "Hometown BBQ",
+      "neighborhood": "Brooklyn",
+      "photograph": "6.jpg",
+      "address": "454 Van Brunt St, Brooklyn, NY 11231",
+      "latitude": 40.674129,
+      "longitude": -74.016641,
+      "image": "https://res.cloudinary.com/the-infatuation/image/upload/c_fill,w_1200,ar_4:3,g_auto,f_auto/cms/reviews/hometown-bar-b-que/banners/1561989803.54",
+      "cuisine_type": "American",
+      "operating_hours": {
+        "Monday": "Closed",
+        "Tuesday": "12:00 pm - 10:00 pm",
+        "Wednesday": "12:00 pm - 10:00 pm",
+        "Thursday": "12:00 pm - 10:00 pm",
+        "Friday": "12:00 pm - 11:00 pm",
+        "Saturday": "12:00 pm - 11:00 pm",
+        "Sunday": "12:00 pm - 10:00 pm"
+      },
+      "reviews": []
+    },
+    {
+      "id": 7,
+      "name": "Superiority Burger",
+      "neighborhood": "Manhattan",
+      "photograph": "7.jpg",
+      "address": "430 E 9th St, New York, NY 10009",
+      "latitude": 40.727397,
+      "longitude": -73.983645,
+      "image": "https://cdn.vox-cdn.com/thumbor/C1g9g1w7y3q8j5q5z6h5w4v3u2t1=/0x0:2000x1333/1200x800/filters:focal(840x507:1160x827)/cdn.vox-cdn.com/uploads/chorus_image/image/69385651/Superiority_Burger_2.0.jpg",
+      "cuisine_type": "American",
+      "operating_hours": {
+        "Monday": "11:30 am - 10:00 pm",
+        "Tuesday": "Closed",
+        "Wednesday": "11:30 am - 10:00 pm",
+        "Thursday": "11:30 am - 10:00 pm",
+        "Friday": "11:30 am - 10:00 pm",
+        "Saturday": "11:30 am - 10:00 pm",
+        "Sunday": "11:30 am - 10:00 pm"
+      },
+      "reviews": []
+    },
+    {
+      "id": 8,
+      "name": "The Dutch",
+      "neighborhood": "Manhattan",
+      "photograph": "8.jpg",
+      "address": "131 Sullivan St, New York, NY 10012",
+      "latitude": 40.726584,
+      "longitude": -74.002082,
+      "image": "https://res.cloudinary.com/the-infatuation/image/upload/c_fill,w_1200,ar_4:3,g_auto,f_auto/cms/reviews/the-dutch/banners/1564761274.65",
+      "cuisine_type": "American",
+      "operating_hours": {
+        "Monday": "11:30 am - 10:30 pm",
+        "Tuesday": "11:30 am - 10:30 pm",
+        "Wednesday": "11:30 am - 10:30 pm",
+        "Thursday": "11:30 am - 10:30 pm",
+        "Friday": "11:30 am - 11:00 pm",
+        "Saturday": "10:00 am - 11:00 pm",
+        "Sunday": "10:00 am - 10:30 pm"
+      },
+      "reviews": []
+    },
+    {
+      "id": 9,
+      "name": "Mu Ramen",
+      "neighborhood": "Queens",
+      "photograph": "9.jpg",
+      "address": "1209 Jackson Ave, Long Island City, NY 11101",
+      "latitude": 40.743499,
+      "longitude": -73.952528,
+      "image": "https://cdn.vox-cdn.com/thumbor/K-s7s1hK_Yy5-vX_j5Kx4_5j5_g=/0x0:2000x1333/1200x800/filters:focal(840x507:1160x827)/cdn.vox-cdn.com/uploads/chorus_image/image/62923571/Mu_Ramen_2.0.jpg",
+      "cuisine_type": "Asian",
+      "operating_hours": {
+        "Monday": "5:30 pm - 10:00 pm",
+        "Tuesday": "5:30 pm - 10:00 pm",
+        "Wednesday": "5:30 pm - 10:00 pm",
+        "Thursday": "5:30 pm - 10:00 pm",
+        "Friday": "5:30 pm - 11:00 pm",
+        "Saturday": "5:00 pm - 11:00 pm",
+        "Sunday": "5:00 pm - 10:00 pm"
+      },
+      "reviews": []
+    },
+    {
+      "id": 10,
+      "name": "Casa Enrique",
+      "neighborhood": "Queens",
+      "photograph": "10.jpg",
+      "address": "5-48 49th Ave, Long Island City, NY 11101",
+      "latitude": 40.741381,
+      "longitude": -73.954737,
+      "image": "https://media.timeout.com/images/105238981/image.jpg",
+      "cuisine_type": "Mexican",
+      "operating_hours": {
+        "Monday": "5:00 pm - 10:30 pm",
+        "Tuesday": "5:00 pm - 10:30 pm",
+        "Wednesday": "5:00 pm - 10:30 pm",
+        "Thursday": "5:00 pm - 10:30 pm",
+        "Friday": "5:00 pm - 11:30 pm",
+        "Saturday": "5:00 pm - 11:30 pm",
+        "Sunday": "12:00 pm - 3:30 pm, 5:00 pm - 10:30 pm"
       },
       "reviews": []
     }

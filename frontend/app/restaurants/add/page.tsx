@@ -3,8 +3,6 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { useRestaurantStore } from '@/store/useRestaurantStore';
-
-// 1. IMPORTAMOS EL NAVBAR COMPARTIDO
 import Navbar from '@/components/NavBar';
 
 export default function AddRestaurantPage() {
@@ -13,7 +11,6 @@ export default function AddRestaurantPage() {
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 2. ESTADO PARA LOS DATOS DEL FORMULARIO
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -21,7 +18,6 @@ export default function AddRestaurantPage() {
     image: null as string | null
   });
 
-  // Manejar subida de imagen
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -33,20 +29,19 @@ export default function AddRestaurantPage() {
     }
   };
 
-  // Manejar cambios en inputs de texto
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 3. FUNCIÓN DE GUARDADO REAL
+  // --- FUNCIÓN DE GUARDADO CON REDIRECCIÓN A ERROR ---
   const handleSave = async () => {
-    if (!formData.name || !formData.address) {
-        alert("Por favor, rellena al menos nombre y dirección.");
+    // 1. VALIDACIÓN: Si falta nombre, dirección o descripción, vamos a ERROR
+    if (!formData.name || !formData.address || !formData.description) {
+        router.push('/restaurants/add/error');
         return;
     }
 
     try {
-      // Guardamos en el store
       await addRestaurant({
           name: formData.name,
           address: formData.address,
@@ -54,27 +49,26 @@ export default function AddRestaurantPage() {
           image: formData.image || "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80" 
       });
 
-      // MODIFICACIÓN AQUÍ: Redirigimos a la página de éxito anidada
+      // Éxito
       router.push('/restaurants/add/success');
 
     } catch (error) {
       console.error("Error al guardar:", error);
-      alert("Hubo un problema al guardar el restaurante.");
+      // 2. ERROR DE SERVIDOR: También vamos a la página de ERROR
+      router.push('/restaurants/add/error');
     }
   };
 
   return (
     <div className="min-h-screen w-full bg-white font-sans flex flex-col relative">
-      
       <Navbar />
 
       <main className="flex-1 flex flex-col items-center justify-center px-10 pb-20 max-w-7xl mx-auto w-full mt-10">
-        
         <div className="mb-8 text-[#2F54EB]"><AsteriskIcon /></div>
 
         <div className="flex flex-col lg:flex-row gap-12 w-full items-start justify-center">
           
-          {/* CUADRO DE IMAGEN CON BORDE NEGRO */}
+          {/* CUADRO DE IMAGEN */}
           <div 
             onClick={() => !formData.image && fileInputRef.current?.click()}
             className="w-full max-w-[480px] aspect-square bg-[#F2F2F2] rounded-[24px] border border-black overflow-hidden flex items-center justify-center relative cursor-pointer"
@@ -84,7 +78,7 @@ export default function AddRestaurantPage() {
             {formData.image ? (
               <div className="relative w-full h-full group">
                 <img src={formData.image} className="w-full h-full object-cover" alt="Preview" />
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <button 
                     onClick={(e) => { 
                         e.stopPropagation(); 
@@ -140,7 +134,7 @@ export default function AddRestaurantPage() {
 
             <button 
               onClick={handleSave}
-              className="px-10 py-2.5 rounded-full border border-black bg-white text-black font-bold text-sm hover:bg-black hover:text-white transition-all shadow-sm"
+              className="px-10 py-2.5 rounded-full border border-black bg-white text-black font-bold text-sm hover:bg-black hover:text-white transition-all shadow-sm active:scale-95"
             >
               Guardar
             </button>

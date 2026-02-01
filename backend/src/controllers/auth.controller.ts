@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../interfaces/user.interface';
 
-// Forzamos a que el array acepte cualquier propiedad nueva como 'email'
+// Aqui forcé a que el array acepte cualquier propiedad nueva como 'email'
 let users: any[] = [
   {
     id: "1",
@@ -27,7 +27,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'Email y contraseña son requeridos' });
   }
 
-  // IMPORTANTE: Buscamos si el email ya existe en lugar del username
+  // Aca buusco si el email ya existe en lugar del username
   if (users.find(u => u.email === email)) {
     return res.status(400).json({ message: 'El email ya existe' });
   }
@@ -47,12 +47,12 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  // CAMBIO CLAVE: Extraemos 'email' del cuerpo de la petición
+  
   const { email, password } = req.body;
 
-  console.log("Intentando login con email:", email); // Para que lo veas en tu consola
+  console.log("Intentando login con email:", email); 
 
-  // 1. Buscamos el usuario por su EMAIL
+  // 1. Busco el usuario por su EMAIL
   const user = users.find(u => u.email === email);
 
   // 2. Si no existe por ese email, error
@@ -60,7 +60,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'El email no está registrado' });
   }
 
-  // 3. Comparamos contraseña
+  // 3. Comparo contraseña
   const isMatch = await bcrypt.compare(password, user.password);
   
   if (!isMatch) {
