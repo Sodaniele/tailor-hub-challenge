@@ -8,8 +8,6 @@ import axios from 'axios';
 function PasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  // Recuperamos lo que pusiste en la pantalla anterior
   const email = searchParams.get('email') || '';
   const username = searchParams.get('username') || '';
   
@@ -22,15 +20,14 @@ function PasswordForm() {
     setLoading(true);
 
     try {
-      // AQUÍ es donde realmente se crea el usuario en el servidor
-      await axios.post('http://localhost:4000/api/auth/register', {
+     await axios.post('http://localhost:4000/api/auth/register', {
         username: username,
         password: password,
         email: email
       });
 
       alert("¡Registro completado con éxito!");
-      router.push('/login'); // Ahora sí, después de registrar, vamos al login
+      router.push('/login'); 
     } catch (error: any) {
       alert(error.response?.data?.message || "Error al registrar");
     } finally {
@@ -89,7 +86,7 @@ function PasswordForm() {
   );
 }
 
-// Next.js requiere Suspense para usar useSearchParams
+
 export default function PasswordPage() {
   return (
     <Suspense fallback={<div className="h-screen bg-white" />}>

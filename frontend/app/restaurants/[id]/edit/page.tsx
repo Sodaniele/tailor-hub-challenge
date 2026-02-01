@@ -14,17 +14,17 @@ export default function EditRestaurantPage() {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
-    description: '', // Si tu JSON no tiene description, se quedará vacío, no pasa nada
+    description: '', 
     image: '',
     cuisine_type: ''
   });
 
-  // 1. Cargar los datos actuales del restaurante
+  // 1. Cargar aca los datos actuales del restaurante
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`http://localhost:4000/api/restaurants/${params.id}`);
-        // Rellenamos el formulario con lo que viene de la API
+        // Relleno el formulario con lo que viene de la API
         setFormData({
           name: res.data.name || '',
           address: res.data.address || '',
@@ -47,10 +47,10 @@ export default function EditRestaurantPage() {
 
   const handleUpdate = async () => {
     try {
-      // Llamada PUT al backend (Requisito CRUD)
+      // Llamada PUT al backend
       await axios.put(`http://localhost:4000/api/restaurants/${params.id}`, formData);
       alert("Restaurante actualizado correctamente");
-      router.push(`/restaurants/${params.id}`); // Volver al detalle
+      router.push(`/restaurants/${params.id}`); 
     } catch (error) {
       alert("Error al actualizar");
     }

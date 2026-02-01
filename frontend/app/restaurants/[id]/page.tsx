@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { Star } from 'lucide-react'; 
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
-
-// 1. IMPORTAMOS EL NAVBAR COMPARTIDO
 import Navbar from '@/components/NavBar';
 
 export default function RestaurantDetailPage() {
@@ -126,7 +124,7 @@ export default function RestaurantDetailPage() {
                       </h4>
                       {review.date && <span className="text-xs text-gray-400 block mt-1">{review.date}</span>}
                       
-                      {/* --- MODIFICADO: Uso !text-black para forzar el color negro --- */}
+                      
                       <button 
                         onClick={() => handleDeleteReview(i)}
                         className="text-[10px] !text-black underline mt-2 cursor-pointer font-medium hover:text-gray-600 block"

@@ -8,8 +8,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    // CAMBIO IMPORTANTE: Quitamos 'absolute top-0 left-0 right-0' y ponemos 'relative'.
-    // Esto hace que la barra empuje el mapa hacia abajo y no se monte encima.
     <nav className="w-full flex justify-end px-10 py-6 bg-transparent relative z-[9999]">
       
       <div className="relative">

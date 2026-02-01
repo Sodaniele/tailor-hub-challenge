@@ -27,7 +27,7 @@ export default function Home() {
             <div className="w-[1px] h-10 bg-black/20"></div>
           </div>
 
-          {/* Copyright (Dentro de la caja gris) */}
+          {/* Copyright */}
           <div className="absolute bottom-8 left-8">
             <p className="text-[10px] text-black font-medium opacity-40 tracking-tight">
               Prueba técnica ©Tailor hub SL 2019 - 2024

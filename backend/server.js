@@ -93,7 +93,7 @@ app.delete('/api/restaurants/:id', (req, res) => {
   res.status(204).send();
 });
 
-// --- CRUD: Comentarios (Reviews) ---
+// --- CRUD: Comentarios ---
 app.post('/api/restaurants/:id/reviews', (req, res) => {
   const db = readDB();
   const restaurantId = parseInt(req.params.id);

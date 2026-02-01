@@ -4,7 +4,7 @@ import { Heart } from 'lucide-react';
 export default function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   return (
     <div className="group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all hover:shadow-md">
-      {/* Botón de Favorito (Figma Style) */}
+      {/* Botón de Favorito */}
       <button className="absolute top-3 right-3 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full text-gray-400 hover:text-red-500 transition-colors">
         <Heart size={20} />
       </button>

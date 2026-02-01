@@ -21,7 +21,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend is running smoothly' });
 });
 
-// --- BLOQUE DE FAVORITOS (LOGICA ROBUSTA) ---
+// --- BLOQUE DE FAVORITOS ---
 // Ajustamos la ruta para salir de 'src' y entrar en 'data'
 const USERS_FILE = path.join(__dirname, '../data/users.json');
 
@@ -40,21 +40,21 @@ app.post('/api/favorites', (req, res) => {
     // 2. Buscamos al usuario (usamos == para que valga "1" o 1)
     let userIndex = users.findIndex((u: any) => u.id == userId);
 
-    // 3. Si el usuario no existe, lo creamos al vuelo (evita errores 404)
+    // 3. Si el usuario no existe, lo creamos al vuelo (evita los tipicos errores 404)
     if (userIndex === -1) {
       const newUser = { id: userId, email: "user@demo.com", favorites: [] };
       users.push(newUser);
       userIndex = users.length - 1;
     }
 
-    // 4. Lógica de poner/quitar (Toggle)
+    // 4. Lógica de poner/quitar
     let favs = users[userIndex].favorites || [];
-    const targetId = Number(restaurantId); // Aseguramos que sea número
+    const targetId = Number(restaurantId); 
 
     if (favs.includes(targetId)) {
-      favs = favs.filter((id: number) => id !== targetId); // Quitar
+      favs = favs.filter((id: number) => id !== targetId); 
     } else {
-      favs.push(targetId); // Añadir
+      favs.push(targetId); 
     }
 
     // 5. Guardar cambios en el disco

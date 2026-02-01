@@ -17,7 +17,7 @@ const saveUsers = (users: any[]) => {
   fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
 };
 
-// POST /api/favorites - Añadir o Quitar favorito
+// POST /api/favorites - Que es sobre añadir o quitar favorito
 router.post('/', (req: Request, res: Response) => {
   const { userId, restaurantId } = req.body;
 

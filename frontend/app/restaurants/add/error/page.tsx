@@ -50,7 +50,6 @@ export default function ErrorPage() {
           <AsteriskIcon />
         </div>
 
-        {/* Mensaje de Error Calcado a la captura */}
         <div className="text-center space-y-8">
           <h2 className="text-[#2F54EB] font-bold text-lg tracking-tight">
             Ups, algo salió mal

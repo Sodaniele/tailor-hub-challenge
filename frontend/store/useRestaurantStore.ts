@@ -28,7 +28,7 @@ export const useRestaurantStore = create<RestaurantState>((set, get) => ({
   loading: false,
 
   fetchRestaurants: async () => {
-    // Si ya tenemos restaurantes, no ponemos loading para que no parpadee la pantalla y parezca que se borran
+    // Si ya tenemos los restaurantes, no ponemos loading para que no parpadee la pantalla y parezca que se borran
     if (get().restaurants.length === 0) set({ loading: true });
     
     try {
@@ -53,7 +53,7 @@ export const useRestaurantStore = create<RestaurantState>((set, get) => ({
 
     // Actualizamos SOLO favoritos, manteniendo los restaurantes intactos
     set((state) => ({
-      ...state, // Mantenemos el resto del estado (incluyendo restaurantes)
+      ...state, 
       favorites: newFavs
     }));
 

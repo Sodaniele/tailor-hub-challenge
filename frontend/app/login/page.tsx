@@ -28,14 +28,14 @@ export default function LoginPage() {
         password: password
       });
 
-      // Si el servidor responde OK (status 200)
+      // Si el servidor responde OK 
       if (res.data.token) {
-        // 3. Usamos la función global para guardar usuario y token
+        // 3. Uso la función global para guardar usuario y token
         login(res.data.user, res.data.token);
         router.push('/restaurants'); 
       }
     } catch (error: any) {
-      // Si la contraseña está mal, el backend devuelve 401 y cae aquí
+      // Si la contraseña está mal, el backend devuelve 401 y cae aca
       alert(error.response?.data?.message || "Credenciales incorrectas");
     } finally {
       setLoading(false);
