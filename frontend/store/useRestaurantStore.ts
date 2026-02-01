@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-// 1. Definimos la estructura de un Restaurante
 interface Restaurant {
   id: number;
   name: string;
@@ -12,65 +11,67 @@ interface Restaurant {
   reviews: any[];
   latitude?: number;
   longitude?: number;
-  description?: string;
 }
 
-// 2. Definimos el estado del store
 interface RestaurantState {
   restaurants: Restaurant[];
+  favorites: number[];
   loading: boolean;
   fetchRestaurants: () => Promise<void>;
-  addRestaurant: (newRestaurant: any) => Promise<void>;
+  toggleFavorite: (id: number) => Promise<void>;
+  addRestaurant: (data: any) => Promise<void>;
 }
 
-export const useRestaurantStore = create<RestaurantState>((set) => ({
+export const useRestaurantStore = create<RestaurantState>((set, get) => ({
   restaurants: [],
+  favorites: [],
   loading: false,
 
-  // ✅ FETCH SEGURO (NO BLOQUEA NEXT)
   fetchRestaurants: async () => {
-    // ⛔ evita doble fetch
-    set({ loading: true });
-
+    // Si ya tenemos restaurantes, no ponemos loading para que no parpadee la pantalla y parezca que se borran
+    if (get().restaurants.length === 0) set({ loading: true });
+    
     try {
-      const response = await axios.get(
-        'http://127.0.0.1:4000/api/restaurants',
-        {
-          timeout: 5000, // ⛑️ evita render infinito
-        }
-      );
-
+      const response = await axios.get('http://localhost:4000/api/restaurants');
       set({ restaurants: response.data });
     } catch (error) {
-      console.error('Error al traer restaurantes:', error);
+      console.error('Error fetch:', error);
     } finally {
-      set({ loading: false }); // ❌ sin setTimeout
+      set({ loading: false });
     }
   },
 
-  // ✅ ADD RESTAURANT (OK)
-  addRestaurant: async (newRestaurantData) => {
+  toggleFavorite: async (restaurantId: number) => {
+    // Obtenemos los favoritos actuales
+    const currentFavs = get().favorites || [];
+    const isFav = currentFavs.includes(restaurantId);
+
+    // Creamos la nueva lista
+    const newFavs = isFav 
+      ? currentFavs.filter(id => id !== restaurantId) 
+      : [...currentFavs, restaurantId];
+
+    // Actualizamos SOLO favoritos, manteniendo los restaurantes intactos
+    set((state) => ({
+      ...state, // Mantenemos el resto del estado (incluyendo restaurantes)
+      favorites: newFavs
+    }));
+
+    // Sincronizamos con el backend en segundo plano
     try {
-      const newRestaurant: Restaurant = {
-        id: Date.now(),
-        neighborhood: 'Barrio Nuevo',
-        cuisine_type: 'Variada',
-        reviews: [],
-        latitude: 40.416 + Math.random() * 0.01,
-        longitude: -3.703 + Math.random() * 0.01,
-        ...newRestaurantData,
-      };
-
-      set((state) => ({
-        restaurants: [newRestaurant, ...state.restaurants],
-      }));
-
-      console.log(
-        'Restaurante añadido al store localmente:',
-        newRestaurant
-      );
+      await axios.post('http://localhost:4000/api/favorites', {
+        userId: 1,
+        restaurantId
+      });
     } catch (error) {
-      console.error('Error al añadir restaurante:', error);
+      console.error('Error al guardar favorito en backend:', error);
     }
+  },
+
+  addRestaurant: async (newRestaurantData) => {
+    const newRes = { id: Date.now(), reviews: [], ...newRestaurantData };
+    set((state) => ({
+      restaurants: [newRes, ...state.restaurants]
+    }));
   },
 }));
