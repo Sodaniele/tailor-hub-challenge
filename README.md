@@ -83,7 +83,7 @@ Plaintext
 └── README.md
 
 🎯 Guía de Usuario: ¿Qué puedes hacer?
-Para evaluar la aplicación al 100%, te recomendamos seguir este flujo:
+Para evaluar la aplicación al 100%, te recomiendo seguir este flujo:
 
 - Registro y Login: Crea una cuenta nueva para generar tu propio perfil de usuario.
 - Explorar el Mapa: Navega por el mapa interactivo de New York. Haz clic en los pines para localizar restaurantes.
