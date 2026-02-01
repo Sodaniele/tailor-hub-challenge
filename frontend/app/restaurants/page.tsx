@@ -10,6 +10,9 @@ import Navbar from '@/components/NavBar';
 
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoic29kYW5pZWxlIiwiYSI6ImNtbDE5YXF4NDAxc3AzZ3F0ZnlldTVlb2kifQ.1myKvxq_xL0TTkz0ZQ0gYQ';
 
+// Imagen de respaldo por si el link del JSON falla
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop";
+
 export default function RestaurantsListPage() {
   const restaurants = useRestaurantStore((state) => state.restaurants);
   const loading = useRestaurantStore((state) => state.loading);
@@ -65,9 +68,8 @@ export default function RestaurantsListPage() {
     <div className="h-screen w-full bg-[#F9F9F9] flex flex-col overflow-hidden relative">
       <Navbar />
 
-      {/* --- SECCIÓN FAVORITOS (FIXED PARA QUE NO SE CORTE) --- */}
+      {/* --- SECCIÓN FAVORITOS --- */}
       <div className="fixed top-6 left-10 z-[110]">
-        {/* Botón Disparador */}
         <div 
           onClick={(e) => {
             e.stopPropagation();
@@ -82,10 +84,8 @@ export default function RestaurantsListPage() {
           </div>
         </div>
 
-        {/* El Desplegable Azul */}
         {isListOpen && (
           <>
-            {/* Backdrop para cerrar al hacer click fuera */}
             <div className="fixed inset-0 z-[-1] bg-black/5" onClick={() => setIsListOpen(false)} />
             
             <div className="fixed top-20 left-10 w-64 bg-[#2F54EB] rounded-[24px] shadow-2xl overflow-hidden border border-white/20 flex flex-col">
@@ -112,7 +112,12 @@ export default function RestaurantsListPage() {
                       }}
                       className="flex items-center gap-3 p-2 hover:bg-white/10 rounded-xl cursor-pointer transition-colors mb-1"
                     >
-                      <img src={res.image} className="w-10 h-10 rounded-lg object-cover border border-white/10" alt={res.name} />
+                      <img 
+                        src={res.image || PLACEHOLDER_IMAGE} 
+                        className="w-10 h-10 rounded-lg object-cover border border-white/10" 
+                        alt={res.name}
+                        onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
+                      />
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] font-bold text-white truncate">{res.name}</p>
                         <p className="text-[9px] text-blue-100/70 truncate">{res.address}</p>
@@ -175,19 +180,26 @@ export default function RestaurantsListPage() {
             const reviewCount = res.reviews?.length || 0;
             const isFavorite = favorites?.includes(res.id);
 
-            const titleClass = isActive ? 'text-black font-bold' : 'text-gray-400 font-bold';
-            const textClass = isActive ? 'text-gray-700' : 'text-gray-400';
-            const containerClass = isActive 
-              ? 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all shadow-lg scale-[1.01] lg:scale-[1.02] z-10 ring-1 ring-black/5 relative'
-              : 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all hover:bg-gray-50 opacity-70 relative';
-
             return (
-              <div key={res.id} onClick={() => goToRestaurant(res)} className={containerClass}>
-                <img src={res.image} className={isActive ? 'w-24 h-24 lg:w-32 lg:h-32 rounded-[18px] object-cover' : 'w-24 h-24 lg:w-32 lg:h-32 rounded-[18px] object-cover grayscale-[30%]'} alt={res.name} />
+              <div 
+                key={res.id} 
+                onClick={() => goToRestaurant(res)} 
+                className={isActive 
+                  ? 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all shadow-lg scale-[1.01] lg:scale-[1.02] z-10 ring-1 ring-black/5 relative'
+                  : 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all hover:bg-gray-50 opacity-70 relative'
+                }
+              >
+                {/* Lógica de imagen corregida */}
+                <img 
+                  src={res.image || PLACEHOLDER_IMAGE} 
+                  className={isActive ? 'w-24 h-24 lg:w-32 lg:h-32 rounded-[18px] object-cover' : 'w-24 h-24 lg:w-32 lg:h-32 rounded-[18px] object-cover grayscale-[30%]'} 
+                  alt={res.name} 
+                  onError={(e) => (e.currentTarget.src = PLACEHOLDER_IMAGE)}
+                />
 
                 <div className="flex flex-col justify-center flex-1">
-                  <h3 className={`text-lg lg:text-xl leading-tight mb-1 transition-colors ${titleClass}`}>{res.name}</h3>
-                  <p className={`text-xs lg:text-sm mb-3 line-clamp-1 transition-colors ${textClass}`}>{res.address}</p>
+                  <h3 className={`text-lg lg:text-xl leading-tight mb-1 font-bold ${isActive ? 'text-black' : 'text-gray-400'}`}>{res.name}</h3>
+                  <p className={`text-xs lg:text-sm mb-3 line-clamp-1 ${isActive ? 'text-gray-700' : 'text-gray-400'}`}>{res.address}</p>
 
                   <div className="flex items-center gap-2">
                     <div className="flex gap-0.5 lg:gap-1">
@@ -195,7 +207,7 @@ export default function RestaurantsListPage() {
                         <Star key={star} size={16} className={star <= rating ? 'fill-[#2F54EB] text-[#2F54EB]' : 'fill-gray-100 text-gray-100'} />
                       ))}
                     </div>
-                    <span className={`text-[10px] lg:text-xs font-medium transition-colors ${textClass}`}>({reviewCount})</span>
+                    <span className={`text-[10px] lg:text-xs font-medium ${isActive ? 'text-gray-700' : 'text-gray-400'}`}>({reviewCount})</span>
                   </div>
                 </div>
 
