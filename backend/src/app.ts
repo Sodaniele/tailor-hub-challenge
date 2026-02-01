@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import fs from 'fs'; // Añadido para manejar el archivo de favoritos
-import path from 'path'; // Añadido para las rutas de archivos
+import fs from 'fs'; 
+import path from 'path'; 
 import restaurantRoutes from './routes/restaurant.routes';
 import authRoutes from './routes/auth.routes'; 
 
@@ -21,33 +21,51 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend is running smoothly' });
 });
 
-// --- BLOQUE DE FAVORITOS (Añadido) ---
+// --- BLOQUE DE FAVORITOS (LOGICA ROBUSTA) ---
+// Ajustamos la ruta para salir de 'src' y entrar en 'data'
 const USERS_FILE = path.join(__dirname, '../data/users.json');
 
 app.post('/api/favorites', (req, res) => {
   try {
     const { userId, restaurantId } = req.body;
+
+    // 1. Si no existe el archivo, lo creamos vacío
     if (!fs.existsSync(USERS_FILE)) {
-      return res.status(500).json({ error: "No existe el archivo de usuarios" });
+      fs.writeFileSync(USERS_FILE, '[]');
     }
 
-    const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf-8'));
-    const userIndex = users.findIndex((u: any) => u.id === userId);
+    const fileContent = fs.readFileSync(USERS_FILE, 'utf-8');
+    const users = JSON.parse(fileContent || '[]');
 
-    if (userIndex === -1) return res.status(404).json({ error: "Usuario no encontrado" });
+    // 2. Buscamos al usuario (usamos == para que valga "1" o 1)
+    let userIndex = users.findIndex((u: any) => u.id == userId);
 
+    // 3. Si el usuario no existe, lo creamos al vuelo (evita errores 404)
+    if (userIndex === -1) {
+      const newUser = { id: userId, email: "user@demo.com", favorites: [] };
+      users.push(newUser);
+      userIndex = users.length - 1;
+    }
+
+    // 4. Lógica de poner/quitar (Toggle)
     let favs = users[userIndex].favorites || [];
-    if (favs.includes(restaurantId)) {
-      favs = favs.filter((id: any) => id !== restaurantId);
+    const targetId = Number(restaurantId); // Aseguramos que sea número
+
+    if (favs.includes(targetId)) {
+      favs = favs.filter((id: number) => id !== targetId); // Quitar
     } else {
-      favs.push(restaurantId);
+      favs.push(targetId); // Añadir
     }
 
+    // 5. Guardar cambios en el disco
     users[userIndex].favorites = favs;
     fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 
+    console.log(`Favoritos actualizados para usuario ${userId}:`, favs);
     res.json({ success: true, favorites: favs });
+
   } catch (error) {
+    console.error("Error en favoritos:", error);
     res.status(500).json({ error: "Error al procesar favoritos" });
   }
 });
