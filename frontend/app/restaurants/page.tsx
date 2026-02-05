@@ -1,24 +1,24 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Map, { Marker } from 'react-map-gl/mapbox';
+import Map, { Marker, ViewStateChangeEvent } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Star, X } from 'lucide-react'; 
 import { useRouter } from 'next/navigation'; 
 import { useRestaurantStore } from '@/store/useRestaurantStore';
 import Navbar from '@/components/NavBar';
+import { Restaurant } from '@/types/restaurant'; 
 
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoic29kYW5pZWxlIiwiYSI6ImNtbDE5YXF4NDAxc3AzZ3F0ZnlldTVlb2kifQ.1myKvxq_xL0TTkz0ZQ0gYQ';
 
-// Imagen de respaldo por si el link del JSON falla
 const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop";
 
 export default function RestaurantsListPage() {
   const restaurants = useRestaurantStore((state) => state.restaurants);
   const loading = useRestaurantStore((state) => state.loading);
   const fetchRestaurants = useRestaurantStore((state) => state.fetchRestaurants);
-  const favorites = useRestaurantStore((state: any) => state.favorites);
-  const toggleFavorite = useRestaurantStore((state: any) => state.toggleFavorite);
+  const favorites = useRestaurantStore((state) => state.favorites);
+  const toggleFavorite = useRestaurantStore((state) => state.toggleFavorite);
 
   const router = useRouter(); 
   const [viewState, setViewState] = useState({
@@ -39,18 +39,18 @@ export default function RestaurantsListPage() {
   }, [fetchRestaurants]);
 
   const goToRestaurant = useCallback(
-    (res: any) => {
-      const lat = parseFloat(res.latitude);
-      const lng = parseFloat(res.longitude);
-      if (!isNaN(lat) && !isNaN(lng)) {
-        setActiveId(res.id);
-        setViewState((prev) => ({
-          ...prev,
-          latitude: lat,
-          longitude: lng,
-          zoom: 15,
-        }));
-      }
+    (res: Restaurant) => {
+      const lat = res.latitude || 40.7128;
+      const lng = res.longitude || -74.0060;
+      
+      setActiveId(res.id);
+      setViewState((prev) => ({
+        ...prev,
+        latitude: lat,
+        longitude: lng,
+        zoom: 15,
+      }));
+      
       router.push(`/restaurants/${res.id}`);
     },
     [router]
@@ -145,15 +145,18 @@ export default function RestaurantsListPage() {
         <div className="w-full h-[40vh] lg:w-1/2 lg:h-full rounded-[32px] overflow-hidden shadow-2xl bg-gray-200 flex-shrink-0">
           <Map
             {...viewState}
-            onMove={(evt) => setViewState(evt.viewState)}
+            onMove={(evt: ViewStateChangeEvent) => setViewState(evt.viewState)}
             style={{ width: '100%', height: '100%' }}
             mapStyle="mapbox://styles/mapbox/dark-v11"
             mapboxAccessToken={MAPBOX_TOKEN}
           >
-            {restaurants.map((res: any) => {
-              const lat = parseFloat(res.latitude);
-              const lng = parseFloat(res.longitude);
-              if (isNaN(lat) || isNaN(lng)) return null;
+            {/* Iteramos sobre el array tipado */}
+            {restaurants.map((res) => {
+              const lat = res.latitude || 0;
+              const lng = res.longitude || 0;
+              
+              if (lat === 0 && lng === 0) return null;
+
               const isActive = res.id === activeId;
               return (
                 <Marker key={res.id} latitude={lat} longitude={lng} anchor="bottom">
@@ -174,9 +177,9 @@ export default function RestaurantsListPage() {
 
         {/* LISTA DE TARJETAS */}
         <div className="w-full lg:w-1/2 h-full overflow-y-auto pr-2 space-y-4 pb-10 lg:pb-0">
-          {restaurants.map((res: any) => {
+          {restaurants.map((res) => {
             const isActive = activeId === res.id;
-            const rating = res.rating || 5;
+            const rating = res.rating || 5; 
             const reviewCount = res.reviews?.length || 0;
             const isFavorite = favorites?.includes(res.id);
 
@@ -189,7 +192,6 @@ export default function RestaurantsListPage() {
                   : 'bg-white rounded-[24px] p-4 flex gap-4 cursor-pointer transition-all hover:bg-gray-50 opacity-70 relative'
                 }
               >
-                {/* Lógica de imagen corregida */}
                 <img 
                   src={res.image || PLACEHOLDER_IMAGE} 
                   className={isActive ? 'w-24 h-24 lg:w-32 lg:h-32 rounded-[18px] object-cover' : 'w-24 h-24 lg:w-32 lg:h-32 rounded-[18px] object-cover grayscale-[30%]'} 

@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { useRestaurantStore } from '@/store/useRestaurantStore';
 import Navbar from '@/components/NavBar';
+import { NewRestaurantInput } from '@/types/restaurant';
 
 export default function AddRestaurantPage() {
   const router = useRouter(); 
@@ -33,28 +34,26 @@ export default function AddRestaurantPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- FUNCIÓN DE GUARDADO CON REDIRECCIÓN A ERROR ---
   const handleSave = async () => {
-    // 1. VALIDACIÓN: Si falta nombre, dirección o descripción, vamos a ERROR
     if (!formData.name || !formData.address || !formData.description) {
         router.push('/restaurants/add/error');
         return;
     }
 
     try {
-      await addRestaurant({
+      const newRestaurantData: NewRestaurantInput = {
           name: formData.name,
           address: formData.address,
           description: formData.description,
           image: formData.image || "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80" 
-      });
+      };
 
-      // Éxito
+      await addRestaurant(newRestaurantData);
+
       router.push('/restaurants/add/success');
 
     } catch (error) {
       console.error("Error al guardar:", error);
-      // 2. ERROR DE SERVIDOR: También vamos a la página de ERROR
       router.push('/restaurants/add/error');
     }
   };
@@ -91,7 +90,7 @@ export default function AddRestaurantPage() {
                 </div>
               </div>
             ) : (
-              <span className="text-black font-bold text-sm">Añadir imágen</span>
+              <span className="text-black font-bold text-sm">Añadir imagen</span>
             )}
           </div>
 

@@ -2,41 +2,36 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import axios from 'axios';
-// 1. Importamos el Hook del estado global
+import axios, { AxiosError } from 'axios'; 
 import { useAuth } from '../../context/AuthContext';
 
 export default function LoginPage() {
   const router = useRouter();
-  // 2. Extraemos la función login del contexto
   const { login } = useAuth();
   
-  // 1. Estados para capturar los datos
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // 2. Función de Login Real
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // CAMBIO AQUÍ: Enviamos 'email' para que el backend lo reconozca
       const res = await axios.post('http://localhost:4000/api/auth/login', {
         email: username, 
         password: password
       });
 
-      // Si el servidor responde OK 
       if (res.data.token) {
-        // 3. Uso la función global para guardar usuario y token
         login(res.data.user, res.data.token);
         router.push('/restaurants'); 
       }
-    } catch (error: any) {
-      // Si la contraseña está mal, el backend devuelve 401 y cae aca
-      alert(error.response?.data?.message || "Credenciales incorrectas");
+    } catch (err) {
+     const error = err as AxiosError<{ message: string }>;
+      
+      const serverMessage = error.response?.data?.message;
+      alert(serverMessage || "Credenciales incorrectas o error de servidor");
     } finally {
       setLoading(false);
     }
@@ -47,7 +42,6 @@ export default function LoginPage() {
       
       {/* LADO IZQUIERDO: FORMULARIO */}
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
-        {/* Cambiamos el div por un FORM para capturar el Enter del teclado */}
         <form onSubmit={handleLogin} className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           
           <div className="mb-10">
@@ -91,7 +85,6 @@ export default function LoginPage() {
               >
                 {loading ? (
                   <>
-                    {/* SVG del Spinner animado */}
                     <svg className="animate-spin h-4 w-4 text-[#2F54EB]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>

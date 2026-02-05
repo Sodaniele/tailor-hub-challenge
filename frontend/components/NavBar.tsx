@@ -2,10 +2,18 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowDown } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { user, logout } = useAuth();
+  const handleLogout = () => {
+    logout(); 
+    router.push('/login'); 
+  };
 
   return (
     <nav className="w-full flex justify-end px-10 py-6 bg-transparent relative z-[9999]">
@@ -17,7 +25,8 @@ export default function Navbar() {
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-2 text-black font-normal text-[16px] hover:opacity-70 transition-opacity select-none focus:outline-none"
         >
-          <span>Nombre usuario</span>
+          {/* Mostramos el nombre real o un fallback */}
+          <span>{user?.name || "Usuario"}</span>
           <ArrowDown 
             size={16} 
             strokeWidth={1.5}
@@ -58,9 +67,9 @@ export default function Navbar() {
               {/* Línea divisoria */}
               <div className="w-full h-[1px] bg-white/20"></div>
 
-              {/* Botón Salir */}
+              {/* Botón Salir CONECTADO */}
               <button 
-                onClick={() => console.log("Cerrar sesión")}
+                onClick={handleLogout}
                 className="w-full bg-white text-black font-bold text-[14px] py-3 rounded-full hover:bg-gray-100 transition-colors shadow-sm"
               >
                 Salir

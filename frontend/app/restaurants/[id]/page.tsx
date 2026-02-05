@@ -5,12 +5,12 @@ import { Star } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import Navbar from '@/components/NavBar';
+import { Restaurant } from '@/types/restaurant';
 
 export default function RestaurantDetailPage() {
   const params = useParams();
   const router = useRouter();
-  
-  const [restaurant, setRestaurant] = useState<any>(null);
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(0);
   const [newComment, setNewComment] = useState("");
@@ -18,7 +18,7 @@ export default function RestaurantDetailPage() {
 
   const fetchRestaurant = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/api/restaurants/${params.id}`);
+      const res = await axios.get<Restaurant>(`http://localhost:4000/api/restaurants/${params.id}`);
       setRestaurant(res.data);
     } catch (err) {
       console.error("Error al cargar restaurante", err);
@@ -51,7 +51,6 @@ export default function RestaurantDetailPage() {
     }
   };
 
-  // FUNCIÓN PARA BORRAR REVIEW ESPECÍFICA
   const handleDeleteReview = async (index: number) => {
     if (confirm("¿Quieres borrar este comentario?")) {
       try {
@@ -104,7 +103,7 @@ export default function RestaurantDetailPage() {
 
       <div className="px-10 max-w-7xl mx-auto flex flex-col md:flex-row gap-12">
         
-        {/* LADO IZQUIERDO: DESCRIPCIÓN Y REVIEWS */}
+        {/* LADO IZQUIERDO */}
         <div className="flex-1">
           <p className="text-gray-600 text-[14px] leading-relaxed mb-12 max-w-3xl">
             {restaurant?.description 
@@ -115,7 +114,7 @@ export default function RestaurantDetailPage() {
 
           <div className="space-y-0">
             {displayReviews.length > 0 ? (
-              displayReviews.map((review: any, i: number) => (
+              displayReviews.map((review, i) => (
                 <div key={i} className="border-t border-[#2F54EB] pt-12 pb-8 flex gap-4 items-start">
                   
                   <div className="w-40 shrink-0">
@@ -123,7 +122,6 @@ export default function RestaurantDetailPage() {
                         {review.name}
                       </h4>
                       {review.date && <span className="text-xs text-gray-400 block mt-1">{review.date}</span>}
-                      
                       
                       <button 
                         onClick={() => handleDeleteReview(i)}
@@ -187,7 +185,7 @@ export default function RestaurantDetailPage() {
         </div>
       </div>
 
-      {/* BOTONES DE ACCIÓN GLOBAL */}
+      {/* BOTONES DE ACCIÓN */}
       <div className="flex justify-center gap-4 mt-12 mb-10">
         <button 
           className="px-10 py-2 rounded-full border border-black text-black text-[13px] font-bold hover:bg-black hover:text-white transition-all shadow-sm"
