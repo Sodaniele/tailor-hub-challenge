@@ -2,15 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios'; 
 import Navbar from '@/components/NavBar';
 import { ArrowLeft } from 'lucide-react';
+import { Restaurant } from '@/types/restaurant';
 
 export default function EditRestaurantPage() {
   const router = useRouter();
   const params = useParams();
   
   const [loading, setLoading] = useState(true);
+  
+
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -19,25 +22,26 @@ export default function EditRestaurantPage() {
     cuisine_type: ''
   });
 
-  // 1. Cargar aca los datos actuales del restaurante
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/api/restaurants/${params.id}`);
-        // Relleno el formulario con lo que viene de la API
+        const res = await axios.get<Restaurant>(`http://localhost:4000/api/restaurants/${params.id}`);
+        
+        // Relleno el formulario
         setFormData({
-          name: res.data.name || '',
-          address: res.data.address || '',
+          name: res.data.name,
+          address: res.data.address,
           description: res.data.description || '', 
-          image: res.data.image || '',
+          image: res.data.image,
           cuisine_type: res.data.cuisine_type || ''
         });
-      } catch (error) {
-        console.error("Error cargando datos", error);
+      } catch (err) {
+        console.error("Error cargando datos", err);
       } finally {
         setLoading(false);
       }
     };
+    
     if (params.id) fetchData();
   }, [params.id]);
 
@@ -47,23 +51,29 @@ export default function EditRestaurantPage() {
 
   const handleUpdate = async () => {
     try {
-      // Llamada PUT al backend
-      await axios.put(`http://localhost:4000/api/restaurants/${params.id}`, formData);
+      // 3. LA LLAMADA PUT TAMBIÉN TIPADA
+      await axios.put<Restaurant>(`http://localhost:4000/api/restaurants/${params.id}`, formData);
       alert("Restaurante actualizado correctamente");
       router.push(`/restaurants/${params.id}`); 
-    } catch (error) {
-      alert("Error al actualizar");
+    } catch (err) {
+      const error = err as AxiosError;
+      console.error(error);
+      alert("Error al actualizar el restaurante");
     }
   };
 
-  if (loading) return <div className="h-screen flex items-center justify-center">Cargando...</div>;
+  if (loading) return (
+    <div className="h-screen w-full flex items-center justify-center bg-white">
+      <div className="w-10 h-10 border-4 border-[#2F54EB] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen w-full bg-white font-sans text-black pb-20">
       <Navbar />
 
       <div className="max-w-2xl mx-auto px-10 mt-10">
-        <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 mb-6 hover:text-black">
+        <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 mb-6 hover:text-black transition-colors">
           <ArrowLeft size={20} /> Volver
         </button>
 
@@ -77,7 +87,7 @@ export default function EditRestaurantPage() {
               name="name" 
               value={formData.name} 
               onChange={handleInputChange} 
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
             />
           </div>
 
@@ -87,7 +97,7 @@ export default function EditRestaurantPage() {
               name="address" 
               value={formData.address} 
               onChange={handleInputChange} 
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
             />
           </div>
 
@@ -97,7 +107,7 @@ export default function EditRestaurantPage() {
               name="cuisine_type" 
               value={formData.cuisine_type} 
               onChange={handleInputChange} 
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
             />
           </div>
 
@@ -107,14 +117,23 @@ export default function EditRestaurantPage() {
               name="image" 
               value={formData.image} 
               onChange={handleInputChange} 
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
             />
-             {formData.image && <img src={formData.image} className="mt-4 w-32 h-32 object-cover rounded-lg" alt="Preview"/>}
+             {formData.image && (
+               <div className="mt-4 w-32 h-32 rounded-lg overflow-hidden border border-gray-200">
+                  <img 
+                    src={formData.image} 
+                    className="w-full h-full object-cover" 
+                    alt="Preview"
+                    onError={(e) => (e.currentTarget.src = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop")}
+                  />
+               </div>
+             )}
           </div>
 
           <button 
             onClick={handleUpdate}
-            className="w-full py-3 bg-black text-white font-bold rounded-full hover:bg-gray-800 transition-all mt-4"
+            className="w-full py-3 bg-black text-white font-bold rounded-full hover:bg-gray-800 transition-all mt-4 shadow-md active:scale-95"
           >
             GUARDAR CAMBIOS
           </button>

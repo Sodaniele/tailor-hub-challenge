@@ -2,8 +2,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios'; 
 
 function PasswordForm() {
   const router = useRouter();
@@ -28,7 +27,8 @@ function PasswordForm() {
 
       alert("¡Registro completado con éxito!");
       router.push('/login'); 
-    } catch (error: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
       alert(error.response?.data?.message || "Error al registrar");
     } finally {
       setLoading(false);
@@ -40,16 +40,43 @@ function PasswordForm() {
       <div className="w-1/2 h-full flex flex-col justify-end pl-2">
         <form onSubmit={handleFinish} className="bg-[#2F54EB] w-full rounded-[32px] p-8 md:p-10 shadow-2xl text-white relative z-10">
           <div className="flex flex-col items-start gap-6 mb-6">
-            <img src="/full-logo.png" alt="Logo" className="h-10 w-auto object-contain brightness-0 invert" />
-            <Link href="/signin" className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10">
-              <ArrowLeft className="w-5 h-5" />
+            
+            <img 
+              src="/full-logo.png" 
+              alt="Logo" 
+              style={{ width: '194px', height: '44px', objectFit: 'contain' }} 
+              className="brightness-0 invert" 
+            />
+            
+           
+            <Link 
+              href="/signin" 
+              style={{ 
+                width: '92px', 
+                height: '60px', 
+                opacity: 1,
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '9999px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                transform: 'rotate(0deg)',
+              }}
+              className="hover:bg-white/10 transition-colors"
+            >
+              <img 
+                src="/flecha.png" 
+                alt="Volver"
+                style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+              />
             </Link>
           </div>
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-light ml-1 block">
-                Crea una contraseña para finalizar:
+              <label className="text-sm font-bold ml-1 block text-white/90">
+                Crea una contraseña nueva
               </label>
               <input 
                 type="password" 
@@ -57,7 +84,7 @@ function PasswordForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Añade una contraseña"
-                className="w-full bg-transparent border border-white/40 rounded-full py-3 px-5 text-white placeholder:text-white/30 focus:outline-none focus:border-white transition-all"
+                className="w-full bg-transparent border border-white/40 rounded-full py-1.5 px-5 text-white placeholder:text-white/30 focus:outline-none focus:border-white transition-all"
               />
             </div>
 
@@ -65,9 +92,9 @@ function PasswordForm() {
               <button 
                 type="submit"
                 disabled={loading}
-                className="bg-white text-[#2F54EB] px-12 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-md disabled:opacity-50"
+                className="bg-white text-[#000000] px-12 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-md disabled:opacity-50"
               >
-                {loading ? 'REGISTRANDO...' : 'FINALIZAR'}
+                {loading ? 'REGISTRANDO...' : 'Finalizar'}
               </button>
             </div>
           </div>
@@ -75,7 +102,8 @@ function PasswordForm() {
       </div>
 
       <div className="w-1/2 h-full rounded-[32px] overflow-hidden relative">
-        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop" alt="Restaurant" className="w-full h-full object-cover"/>
+     
+        <img src="/restaurante2.png" alt="Restaurant" className="w-full h-full object-cover"/>
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
       
@@ -85,7 +113,6 @@ function PasswordForm() {
     </div>
   );
 }
-
 
 export default function PasswordPage() {
   return (
