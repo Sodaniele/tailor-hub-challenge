@@ -1,17 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
-
-interface Restaurant {
-  id: number;
-  name: string;
-  neighborhood: string;
-  cuisine_type: string;
-  image: string;
-  address: string;
-  reviews: any[];
-  latitude?: number;
-  longitude?: number;
-}
+import { Restaurant, NewRestaurantInput } from '../types/restaurant';
 
 interface RestaurantState {
   restaurants: Restaurant[];
@@ -19,7 +8,7 @@ interface RestaurantState {
   loading: boolean;
   fetchRestaurants: () => Promise<void>;
   toggleFavorite: (id: number) => Promise<void>;
-  addRestaurant: (data: any) => Promise<void>;
+  addRestaurant: (data: NewRestaurantInput) => Promise<void>;
 }
 
 export const useRestaurantStore = create<RestaurantState>((set, get) => ({
@@ -28,11 +17,10 @@ export const useRestaurantStore = create<RestaurantState>((set, get) => ({
   loading: false,
 
   fetchRestaurants: async () => {
-    // Si ya tenemos los restaurantes, no ponemos loading para que no parpadee la pantalla y parezca que se borran
     if (get().restaurants.length === 0) set({ loading: true });
     
     try {
-      const response = await axios.get('http://localhost:4000/api/restaurants');
+      const response = await axios.get<Restaurant[]>('http://localhost:4000/api/restaurants');
       set({ restaurants: response.data });
     } catch (error) {
       console.error('Error fetch:', error);
@@ -42,34 +30,38 @@ export const useRestaurantStore = create<RestaurantState>((set, get) => ({
   },
 
   toggleFavorite: async (restaurantId: number) => {
-    // Obtenemos los favoritos actuales
     const currentFavs = get().favorites || [];
     const isFav = currentFavs.includes(restaurantId);
 
-    // Creamos la nueva lista
     const newFavs = isFav 
       ? currentFavs.filter(id => id !== restaurantId) 
       : [...currentFavs, restaurantId];
 
-    // Actualizamos SOLO favoritos, manteniendo los restaurantes intactos
     set((state) => ({
       ...state, 
       favorites: newFavs
     }));
 
-    // Sincronizamos con el backend en segundo plano
     try {
       await axios.post('http://localhost:4000/api/favorites', {
         userId: 1,
         restaurantId
       });
     } catch (error) {
-      console.error('Error al guardar favorito en backend:', error);
+      console.error('Error saving favorite:', error);
     }
   },
 
-  addRestaurant: async (newRestaurantData) => {
-    const newRes = { id: Date.now(), reviews: [], ...newRestaurantData };
+  addRestaurant: async (newRestaurantData: NewRestaurantInput) => {
+    const newRes: Restaurant = {
+      id: Date.now(),
+      reviews: [],
+      neighborhood: 'Nuevo',
+      cuisine_type: 'Variada',
+      rating: 0, // Valor inicial
+      ...newRestaurantData
+    };
+
     set((state) => ({
       restaurants: [newRes, ...state.restaurants]
     }));

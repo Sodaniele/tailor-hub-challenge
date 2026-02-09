@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// IMPORTAMOS EL PROVIDER
 import { AuthProvider } from "../context/AuthContext";
 
 const geistSans = Geist({
@@ -12,7 +11,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "swap", // Añadido para mejor rendimiento de carga
+  display: "swap", 
 });
 
 export const metadata: Metadata = {

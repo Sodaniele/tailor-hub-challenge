@@ -1,10 +1,16 @@
 'use client';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+export interface User {
+  id: string | number;
+  name: string;
+  email: string;
+ }
+
 interface AuthContextType {
-  user: any | null;
+  user: User | null;    
   token: string | null;
-  login: (userData: any, token: string) => void;
+  login: (userData: User, token: string) => void; 
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -12,19 +18,28 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<any | null>(null);
+  // 2. Estado tipado correctamente
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
+    
     if (savedToken && savedUser) {
       setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      try {
+        const parsedUser = JSON.parse(savedUser) as User;
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Error al leer usuario del storage", error);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
     }
   }, []);
 
-  const login = (userData: any, userToken: string) => {
+  const login = (userData: User, userToken: string) => {
     setUser(userData);
     setToken(userToken);
     localStorage.setItem('token', userToken);

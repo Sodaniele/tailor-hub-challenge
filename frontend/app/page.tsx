@@ -3,64 +3,70 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    // CAMBIO 1: Pongo 'bg-white' aquí para que el fondo "detrás" de las tarjetas sea blanco puro.
     <div className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth bg-white font-sans">
       
-      {/* SECCIÓN 1: HOME (LOGO) */}
-      {/* CAMBIO 2: Añadido padding (p-4 md:p-8) para crear el marco blanco alrededor */}
+      {/* SECCIÓN 1: HOME */}
       <section className="h-screen w-full flex flex-col items-center justify-center snap-start snap-always relative p-4 md:p-8">
-        
-        {/* CAMBIO 3: Caja interna "Blanco Roto" (#F2F2F2) con bordes redondeados */}
         <div className="w-full h-full bg-[#F2F2F2] rounded-[32px] flex flex-col items-center justify-center relative shadow-sm overflow-hidden">
-          
           <div className="select-none">
             <img 
               src="/full-logo.png" 
               alt="Tailor Hub Full Logo" 
-              className="w-64 h-auto object-contain" 
+              style={{ width: '194px', height: '44px', objectFit: 'contain' }} 
             />
           </div>
-          
-          {/* Indicador de Deslizar */}
           <div className="absolute bottom-10 animate-bounce text-gray-400 flex flex-col items-center">
             <p className="text-[10px] uppercase tracking-widest mb-2 text-center">Desliza</p>
             <div className="w-[1px] h-10 bg-black/20"></div>
           </div>
-
-          {/* Copyright */}
-          <div className="absolute bottom-8 left-8">
-            <p className="text-[10px] text-black font-medium opacity-40 tracking-tight">
-              Prueba técnica ©Tailor hub SL 2019 - 2024
-            </p>
-          </div>
-
+        </div>
+        <div className="absolute bottom-3 left-10">
+          <p className="text-[10px] text-gray-400 font-medium tracking-tight">
+            Prueba técnica ©Tailor hub SL 2019 - 2026
+          </p>
         </div>
       </section>
 
-      {/* SECCIÓN 2: 50/50 (INTACTA) */}
-      <section className="h-screen w-full flex items-center p-6 md:p-12 snap-start snap-always bg-white">
+      {/* SECCIÓN 2: 50/50 */}
+      <section className="h-screen w-full flex flex-col items-center justify-center snap-start snap-always relative p-4 md:p-8">
         
-        <div className="w-full h-full flex flex-col md:flex-row md:items-end gap-6">
+        <div 
+          className="h-full w-full flex flex-col md:flex-row md:items-end gap-4 md:gap-[40px] justify-center"
+          style={{ maxWidth: '1648px' }}
+        >
           
-          {/* Lado Izquierdo */}
-          <div className="flex-1 w-full bg-[#F2F2F2] p-8 md:p-12 rounded-[32px] flex flex-col justify-center shrink-0 relative border border-black/5 shadow-sm">
-            
+          {/* LADO IZQUIERDO: TEXTO */}
+          <div 
+            className="w-full md:w-1/2 bg-[#F2F2F2] p-4 md:p-8 rounded-[32px] flex flex-col justify-center order-2 md:order-1 border border-black/5 shadow-sm"
+            style={{ 
+              height: '425px', 
+              maxWidth: '804px' 
+            }} 
+          >
             <div className="space-y-6">
-              {/* Logo pequeño */}
               <div>
                 <img 
                   src="/full-logo.png" 
                   alt="Tailor Hub Full Logo" 
-                  className="h-12 w-auto object-contain" 
+                  style={{ width: '194px', height: '44px', objectFit: 'contain' }} 
                 />
               </div>
               
-              {/* Textos */}
-              <div className="space-y-4">
+              <div 
+                style={{ 
+                  maxWidth: '718px', 
+                  width: '100%',
+                  height: '193px', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '8px',
+                  justifyContent: 'center'
+                }}
+              >
                 <h2 className="text-3xl font-light text-black leading-tight">
                   Hola,
                 </h2>
-                <p className="text-xl font-light text-black/80 leading-relaxed max-w-md">
+                <p className="text-xl font-light text-black/80 leading-relaxed">
                   Bienvenido a la prueba de Tailor hub, en ella has de añadir los restaurantes favoritos donde te gustaría ir en tu onboarding.
                 </p>
               </div>
@@ -74,21 +80,25 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-
-            <p className="text-[10px] text-black font-bold opacity-30 mt-10">
-              Prueba técnica ©Tailor hub SL 2019 - 2024
-            </p>
           </div>
 
-          {/* Lado Derecho: Imagen */}
-          <div className="flex-1 w-full h-full rounded-[32px] overflow-hidden shadow-md border border-black/5">
+          {/* LADO DERECHO */}
+          <div 
+            className="w-full md:w-1/2 h-64 md:h-full rounded-[32px] overflow-hidden shadow-md border border-black/5 order-1 md:order-2"
+            style={{ maxWidth: '804px' }}
+          >
             <img 
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop" 
+              src="/restaurante1.png" 
               alt="Restaurante Interior"
               className="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-700"
             />
           </div>
         </div>
+
+        {/* COPYRIGHT */}
+        <p className="md:absolute static py-4 md:py-0 bottom-3 left-10 text-[10px] text-gray-400 font-medium tracking-tight text-center md:text-left order-3">
+          Prueba técnica ©Tailor hub SL 2019 - 2026
+        </p>
       </section>
       
     </div>

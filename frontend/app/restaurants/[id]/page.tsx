@@ -1,24 +1,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Star } from 'lucide-react'; 
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import Navbar from '@/components/NavBar';
+import { Restaurant } from '@/types/restaurant';
+import { StarRating } from '@/components/StarRating';
 
 export default function RestaurantDetailPage() {
   const params = useParams();
   const router = useRouter();
-  
-  const [restaurant, setRestaurant] = useState<any>(null);
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [loading, setLoading] = useState(true);
-  const [rating, setRating] = useState(0);
+  
+  const [rating, setRating] = useState(0); 
   const [newComment, setNewComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const fetchRestaurant = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/api/restaurants/${params.id}`);
+      const res = await axios.get<Restaurant>(`http://localhost:4000/api/restaurants/${params.id}`);
       setRestaurant(res.data);
     } catch (err) {
       console.error("Error al cargar restaurante", err);
@@ -51,7 +52,6 @@ export default function RestaurantDetailPage() {
     }
   };
 
-  // FUNCIÓN PARA BORRAR REVIEW ESPECÍFICA
   const handleDeleteReview = async (index: number) => {
     if (confirm("¿Quieres borrar este comentario?")) {
       try {
@@ -66,7 +66,6 @@ export default function RestaurantDetailPage() {
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este restaurante?");
-    
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:4000/api/restaurants/${params.id}`);
@@ -91,120 +90,121 @@ export default function RestaurantDetailPage() {
       
       <Navbar />
 
-      {/* HERO SECTION */}
-      <div className="px-10 mb-8 mt-6"> 
-        <div className="relative w-full h-[380px] rounded-[30px] overflow-hidden shadow-sm">
+      <div className="w-full flex justify-center mb-12 mt-6 px-4"> 
+        <div className="relative w-full max-w-[1648px] h-[600px] rounded-[32px] overflow-hidden shadow-sm">
           <img src={restaurant?.image} className="w-full h-full object-cover brightness-50" alt="" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-            <h1 className="text-4xl font-bold mb-1 uppercase tracking-tight">{restaurant?.name}</h1>
-            <p className="text-sm opacity-90 font-medium">{restaurant?.address}</p>
+            
+            <h1 className="text-[56px] leading-[64px] font-semibold mb-2 tracking-tight">
+              {restaurant?.name}
+            </h1>
+            <p className="text-lg opacity-90 font-medium">{restaurant?.address}</p>
           </div>
         </div>
       </div>
 
-      <div className="px-10 max-w-7xl mx-auto flex flex-col md:flex-row gap-12">
+      
+      <div className="px-4 w-full max-w-[1366px] mx-auto flex flex-col lg:flex-row justify-between gap-[40px] mb-20">
         
-        {/* LADO IZQUIERDO: DESCRIPCIÓN Y REVIEWS */}
-        <div className="flex-1">
-          <p className="text-gray-600 text-[14px] leading-relaxed mb-12 max-w-3xl">
+        <div className="w-full lg:w-[944px] shrink-0">
+          
+          <p className="text-gray-600 text-[16px] leading-relaxed mb-12">
             {restaurant?.description 
               ? restaurant.description 
               : `Disfruta de la mejor comida ${restaurant?.cuisine_type || 'local'} en el corazón de ${restaurant?.neighborhood || 'la ciudad'}. Un lugar ideal para compartir con amigos y familia.`
             }
           </p>
 
+          {/* LISTA DE RESEÑAS */}
           <div className="space-y-0">
             {displayReviews.length > 0 ? (
-              displayReviews.map((review: any, i: number) => (
-                <div key={i} className="border-t border-[#2F54EB] pt-12 pb-8 flex gap-4 items-start">
+              displayReviews.map((review, i) => (
+                <div key={i} className="border-t border-[#2F54EB] pt-10 pb-10 flex gap-8 items-start">
                   
-                  <div className="w-40 shrink-0">
-                      <h4 className="font-bold text-black text-[16px] leading-6 whitespace-pre-line">
+                  {/* COLUMNA NOMBRE */}
+                  <div className="w-[200px] shrink-0">
+                      <h4 className="font-bold text-black text-[18px] leading-tight whitespace-pre-line">
                         {review.name}
                       </h4>
-                      {review.date && <span className="text-xs text-gray-400 block mt-1">{review.date}</span>}
-                      
-                      
-                      <button 
-                        onClick={() => handleDeleteReview(i)}
-                        className="text-[10px] !text-black underline mt-2 cursor-pointer font-medium hover:text-gray-600 block"
-                      >
-                        Borrar comentario
-                      </button>
                   </div>
 
+                  {/* COLUMNA CONTENIDO */}
                   <div className="flex-1">
-                    <div className="flex justify-end gap-0.5 mb-0 h-0 relative -top-6">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} size={13} className={`${s <= (review.rating || 5) ? 'fill-[#2F54EB] text-[#2F54EB]' : 'fill-gray-200 text-gray-200'}`} />
-                      ))}
+                    <div className="flex justify-end mb-2">
+                       <StarRating 
+                         rating={review.rating || 5} 
+                         readOnly={true}
+                         size={14} 
+                       />
                     </div>
                     
-                    <p className="text-gray-700 text-[14px] leading-6">
+                    <p className="text-gray-700 text-[16px] leading-relaxed">
                       {review.comments}
                     </p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-gray-400 italic">No hay reseñas todavía. ¡Sé el primero en opinar!</p>
+              <p className="text-gray-400 italic mb-12">No hay reseñas todavía. ¡Sé el primero en opinar!</p>
             )}
+          </div>
+
+          <div className="w-full flex justify-end gap-3 mt-8">
+            <button 
+              className="px-8 py-2.5 rounded-full border border-black bg-white text-black text-[14px] font-bold hover:bg-gray-50 transition-all shadow-sm"
+              onClick={() => router.push(`/restaurants/${params.id}/edit`)}
+            >
+              Editar
+            </button>
+            
+            <button 
+              className="px-8 py-2.5 rounded-full border border-black bg-white text-black text-[14px] font-bold hover:bg-red-50 hover:text-red-600 hover:border-red-600 transition-all shadow-sm"
+              onClick={handleDelete}
+            >
+              Eliminar
+            </button>
           </div>
         </div>
 
-        {/* LADO DERECHO: FORMULARIO */}
-        <div className="w-full md:w-[320px] shrink-0">
-          <div className="rounded-[20px] border border-gray-400 p-6 bg-white sticky top-24 shadow-sm">
+        {/* --- LADO DERECHO */}
+        <div className="w-full lg:w-[382px] shrink-0">
+          
+          <div className="w-full h-[233px] rounded-[24px] border border-[#0B0B0B] p-[30px] bg-white sticky top-24 shadow-sm flex flex-col justify-between">
             
-            <div className="flex gap-1.5 mb-5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <Star 
-                  key={s} 
-                  onClick={() => setRating(s)}
-                  size={18}
-                  className={`cursor-pointer transition-colors ${
-                    s <= rating ? 'fill-[#2F54EB] text-[#2F54EB]' : 'text-gray-200'
-                  }`} 
-                />
-              ))}
+            {/* 1. Estrellas */}
+            <div className="flex">
+              <StarRating 
+                rating={rating} 
+                onChange={(val) => setRating(val)} 
+                readOnly={false}
+                size={20}
+              />
             </div>
 
+            {/* 2. Textarea */}
             <textarea 
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Escribe tu comentario sobre el restaurante"
-              className="w-full h-12 text-[14px] text-gray-800 bg-transparent resize-none focus:outline-none placeholder:text-gray-400 font-medium mb-6"
+              className="w-full h-[80px] text-[16px] text-[#7D7D7D] bg-transparent resize-none focus:outline-none placeholder:text-[#7D7D7D] font-normal leading-relaxed py-1"
             />
 
-            <button 
-              onClick={handleSubmitReview}
-              disabled={submitting}
-              className="px-8 py-1.5 rounded-full border border-black text-black text-[13px] font-bold hover:bg-black hover:text-white transition-all disabled:opacity-30"
-            >
-              {submitting ? '...' : 'Enviar'}
-            </button>
+           
+            <div>
+              <button 
+                onClick={handleSubmitReview}
+                disabled={submitting}
+                className="w-[131px] h-[50px] rounded-full border border-[#0B0B0B] bg-white text-black text-[14px] font-bold hover:bg-black hover:text-white transition-all disabled:opacity-50"
+              >
+                {submitting ? '...' : 'Enviar'}
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
-
-      {/* BOTONES DE ACCIÓN GLOBAL */}
-      <div className="flex justify-center gap-4 mt-12 mb-10">
-        <button 
-          className="px-10 py-2 rounded-full border border-black text-black text-[13px] font-bold hover:bg-black hover:text-white transition-all shadow-sm"
-          onClick={() => router.push(`/restaurants/${params.id}/edit`)}
-        >
-          EDITAR
-        </button>
-        
-        <button 
-          className="px-10 py-2 rounded-full border border-black text-black text-[13px] font-bold hover:bg-red-600 hover:text-white hover:border-red-600 transition-all shadow-sm"
-          onClick={handleDelete}
-        >
-          ELIMINAR
-        </button>
-      </div>
       
-      <footer className="px-10 py-6 border-t border-gray-100">
+      <footer className="px-10 py-6 border-t border-gray-100 max-w-[1648px] mx-auto">
         <p className="text-[10px] text-black font-medium opacity-50 tracking-tight">Prueba técnica ©Tailor hub SL 2019 - 2026</p>
       </footer>
     </div>
